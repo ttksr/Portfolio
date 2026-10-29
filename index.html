@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Matteo Scaringella — Cybersecurity student at Ynov. Ethical hacking, network security and security automation.">
+    <meta name="color-scheme" content="dark light">
+    <title>Matteo Scaringella</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237fd1c1' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M12 2v20M4.93 4.93l14.14 14.14M2 12h20M19.07 4.93L4.93 19.07'/%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- Apply saved theme before first paint to avoid a flash -->
+    <script>
+        document.documentElement.classList.add('js');
+        try {
+            if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
+        } catch (e) { }
+    </script>
+</head>
+
+<body data-panel="top">
+    <!-- Background layers -->
+    <canvas class="bg-grid" aria-hidden="true"></canvas>
+    <div class="bg-grain" aria-hidden="true"></div>
+    <div class="panel-progress" aria-hidden="true"></div>
+
+    <!-- Vault dial: turns to a new "combination" on every panel change -->
+    <div class="dial" aria-hidden="true">
+        <svg viewBox="0 0 400 400">
+            <g class="dial-ring dial-ring--outer">
+                <circle cx="200" cy="200" r="190" class="dial-stroke" />
+                <g class="dial-ticks"></g>
+            </g>
+            <g class="dial-ring dial-ring--mid">
+                <circle cx="200" cy="200" r="150" class="dial-stroke dial-dashed" />
+            </g>
+            <g class="dial-ring dial-ring--inner">
+                <circle cx="200" cy="200" r="110" class="dial-stroke dial-arc" />
+                <circle cx="200" cy="90" r="3" class="dial-marker" />
+            </g>
+            <circle cx="200" cy="200" r="4" class="dial-core" />
+            <line x1="200" y1="2" x2="200" y2="22" class="dial-index" />
+        </svg>
+    </div>
+
+    <header class="header">
+        <a href="#top" class="logo" data-panel-link aria-label="Home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="12" y1="2" x2="12" y2="22"></line>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+            </svg>
+        </a>
+
+        <nav class="nav" aria-label="Main">
+            <ul class="nav-list" id="nav-list">
+                <li><a href="#about" class="nav-link" data-panel-link><span class="nav-index">01</span>About</a></li>
+                <li><a href="#projects" class="nav-link" data-panel-link><span class="nav-index">02</span>Projects</a></li>
+                <li><a href="#contact" class="nav-link" data-panel-link><span class="nav-index">03</span>Contact</a></li>
+                <li><a href="#system" class="nav-link" data-panel-link><span class="nav-index">04</span>System</a></li>
+            </ul>
+            <button class="term-open term-open--header" data-term-open aria-label="Open terminal (T)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+            </button>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark / light mode">
+                <span class="theme-icon"></span>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false"
+                aria-controls="nav-list">
+                <span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main id="main" class="stage">
+
+        <!-- HERO -->
+        <section class="panel panel--hero active" id="top" aria-label="Home">
+            <div class="panel-inner">
+                <p class="eyebrow reveal">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    Cybersecurity student · Ynov
+                </p>
+                <h1 class="hero-name reveal">
+                    <span class="hero-hello">Hi, I'm</span>
+                    <span data-scramble>Matteo Scaringella</span>
+                </h1>
+                <p class="hero-desc reveal">
+                    I secure digital infrastructures, explore ethical hacking and build resilient systems
+                    that hold up against modern threats.
+                </p>
+                <div class="hero-actions reveal">
+                    <a href="#projects" class="btn btn-primary" data-panel-link>View projects</a>
+                    <a href="#contact" class="btn btn-ghost" data-panel-link>Get in touch</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="panel" id="about" aria-label="About me">
+            <div class="panel-inner">
+                <header class="section-head reveal">
+                    <span class="section-index">01</span>
+                    <h2 class="section-title" data-scramble>About me</h2>
+                    <span class="section-rule"></span>
+                </header>
+
+                <div class="about-grid">
+                    <div class="about-text reveal">
+                        <p>
+                            I'm a passionate cybersecurity student at Ynov, driven by curiosity about how systems
+                            work — and how to <mark class="redact">break them to make them better</mark>.
+                        </p>
+                        <p>
+                            My journey involves exploring <mark class="redact">ethical hacking</mark>, securing
+                            <mark class="redact">network infrastructures</mark> and developing tools to
+                            <mark class="redact">automate security tasks</mark>. I thrive on challenges and keep
+                            learning about the latest threats and defense mechanisms.
+                        </p>
+                    </div>
+
+                    <ul class="focus-list reveal" aria-label="Focus areas">
+                        <li class="focus-item">
+                            <span class="focus-key">offense</span>
+                            <span class="focus-value">Ethical hacking &amp; pentesting</span>
+                        </li>
+                        <li class="focus-item">
+                            <span class="focus-key">network</span>
+                            <span class="focus-value">Infrastructure hardening</span>
+                        </li>
+                        <li class="focus-item">
+                            <span class="focus-key">tooling</span>
+                            <span class="focus-value">Security automation</span>
+                        </li>
+                        <li class="focus-item">
+                            <span class="focus-key">crypto</span>
+                            <span class="focus-value">Encryption &amp; secure messaging</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="panel" id="projects" aria-label="Projects">
+            <div class="panel-inner">
+                <header class="section-head reveal">
+                    <span class="section-index">02</span>
+                    <h2 class="section-title" data-scramble>Projects</h2>
+                    <span class="section-rule"></span>
+                </header>
+
+                <div class="project-grid">
+                    <article class="project-card reveal">
+                        <div class="card-top">
+                            <span class="card-id">0x01</span>
+                            <span class="card-hash" aria-hidden="true"></span>
+                        </div>
+                        <h3>Network Scanner</h3>
+                        <p>Python script for vulnerability scanning.</p>
+                        <ul class="tags"><li>python</li><li>recon</li></ul>
+                    </article>
+                    <article class="project-card reveal">
+                        <div class="card-top">
+                            <span class="card-id">0x02</span>
+                            <span class="card-hash" aria-hidden="true"></span>
+                        </div>
+                        <h3>Secure Chat</h3>
+                        <p>End-to-end encrypted messaging app.</p>
+                        <ul class="tags"><li>e2ee</li><li>crypto</li></ul>
+                    </article>
+                    <article class="project-card reveal">
+                        <div class="card-top">
+                            <span class="card-id">0x03</span>
+                            <span class="card-hash" aria-hidden="true"></span>
+                        </div>
+                        <h3>Firewall Rules</h3>
+                        <p>Automated iptables configuration tool.</p>
+                        <ul class="tags"><li>iptables</li><li>automation</li></ul>
+                    </article>
+                    <article class="project-card reveal">
+                        <div class="card-top">
+                            <span class="card-id">0x04</span>
+                            <span class="card-hash" aria-hidden="true"></span>
+                        </div>
+                        <h3>Packet Analyzer</h3>
+                        <p>Traffic analysis using Wireshark libraries.</p>
+                        <ul class="tags"><li>pcap</li><li>network</li></ul>
+                    </article>
+                    <article class="project-card reveal">
+                        <div class="card-top">
+                            <span class="card-id">0x05</span>
+                            <span class="card-hash" aria-hidden="true"></span>
+                        </div>
+                        <h3>PenTest Report</h3>
+                        <p>Automated reporting for penetration tests.</p>
+                        <ul class="tags"><li>pentest</li><li>reporting</li></ul>
+                    </article>
+                    <article class="project-card reveal">
+                        <div class="card-top">
+                            <span class="card-id">0x06</span>
+                            <span class="card-hash" aria-hidden="true"></span>
+                        </div>
+                        <h3>Crypto Tool</h3>
+                        <p>Encryption / decryption utility suite.</p>
+                        <ul class="tags"><li>crypto</li><li>cli</li></ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="panel" id="contact" aria-label="Contact">
+            <div class="panel-inner">
+                <header class="section-head reveal">
+                    <span class="section-index">03</span>
+                    <h2 class="section-title" data-scramble>Contact</h2>
+                    <span class="section-rule"></span>
+                </header>
+
+                <div class="contact-body">
+                    <p class="contact-lead reveal">
+                        Open to internships, CTF teams and security conversations.
+                        My inbox is always open.
+                    </p>
+                    <button class="email-copy reveal" id="email-copy" data-email="mat.scaringella@gmail.com">
+                        <span class="email-copy-text">mat.scaringella@gmail.com</span>
+                        <span class="email-copy-hint" aria-live="polite">copy</span>
+                    </button>
+                    <div class="contact-actions reveal">
+                        <a href="mailto:mat.scaringella@gmail.com" class="btn btn-primary">Send an email</a>
+                        <a href="#" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+                        <a href="#" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                    <p class="contact-meta reveal">
+                        Designed &amp; built by Matteo Scaringella · session <span id="session-id">--------</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SYSTEM: HD 110067, live -->
+        <section class="panel" id="system" aria-label="HD 110067">
+            <div class="panel-inner">
+                <header class="section-head reveal">
+                    <span class="section-index">04</span>
+                    <h2 class="section-title" data-scramble>HD 110067</h2>
+                    <span class="section-rule"></span>
+                </header>
+
+                <div class="system-grid">
+                    <div class="orbit-view reveal">
+                        <button type="button" class="orbit-back" id="orbit-back"><kbd>esc</kbd> system</button>
+                        <canvas id="orbit-canvas" role="img"
+                            aria-label="Top-down view of the HD 110067 system, planet positions computed for the current time"></canvas>
+                    </div>
+
+                    <div class="system-info">
+                        <!-- Overview (list) and detail card share the same spot and swap -->
+                        <div class="system-swap reveal" id="system-swap">
+                            <div class="system-overview">
+                                <p class="system-lead">
+                                    A K0 V star 32.2 pc away, orbited by six sub-Neptunes. Positions are live, from
+                                    the published transit ephemerides. Click a body, or drag around the system to
+                                    turn time.
+                                </p>
+
+                                <table class="planet-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">planet</th>
+                                            <th scope="col">P (d)</th>
+                                            <th scope="col">R (R⊕)</th>
+                                            <th scope="col" class="col-teq">Teq (K)</th>
+                                            <th scope="col">next transit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="planet-rows"></tbody>
+                                </table>
+                            </div>
+
+                            <div class="body-card" id="body-card" aria-live="polite">
+                                <div class="body-card-head">
+                                    <button type="button" class="body-card-step" data-step="-1" aria-label="Previous body">‹</button>
+                                    <h3 class="body-card-title" id="body-card-title"></h3>
+                                    <button type="button" class="body-card-step" data-step="1" aria-label="Next body">›</button>
+                                    <button type="button" class="body-card-close" id="body-card-close"><kbd>esc</kbd> list</button>
+                                </div>
+                                <p class="body-card-sub" id="body-card-sub"></p>
+                                <dl class="body-card-stats" id="body-card-stats"></dl>
+                                <div class="light-curve" id="light-curve">
+                                    <canvas id="lc-canvas" aria-hidden="true"></canvas>
+                                    <div class="light-curve-meta">
+                                        <span id="lc-label"></span>
+                                        <span id="lc-next"></span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-ghost btn-small" id="jump-transit">jump to next transit</button>
+                            </div>
+                        </div>
+
+                        <p class="system-chain reveal">
+                            chain <span>3:2</span> · <span>3:2</span> · <span>3:2</span> · <span>4:3</span> · <span>4:3</span>
+                        </p>
+
+                        <div class="system-controls reveal">
+                            <div class="speed" role="group" aria-label="Simulation speed">
+                                <button type="button" data-rate="0" aria-pressed="false">pause</button>
+                                <button type="button" data-rate="1" aria-pressed="true">live</button>
+                                <button type="button" data-rate="3600" aria-pressed="false">1 h/s</button>
+                                <button type="button" data-rate="86400" aria-pressed="false">1 d/s</button>
+                                <button type="button" data-rate="864000" aria-pressed="false">10 d/s</button>
+                            </div>
+                            <div class="sim-clock">
+                                <span id="sim-date"></span>
+                                <span id="sim-bjd"></span>
+                                <span id="sim-offset"></span>
+                            </div>
+                        </div>
+
+                        <p class="system-source reveal">
+                            Luque et al. 2023, Nature 623 · linear ephemeris, no TTVs
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Session log (wide screens): what the visitor does, as access logs -->
+    <aside class="session-log" id="session-log" aria-hidden="true">
+        <div class="session-log-head"><span class="session-log-dot"></span>session.log</div>
+        <ol class="session-log-list" id="session-log-list"></ol>
+    </aside>
+
+    <!-- Bottom bar: tools under the side column, pager under the content, email on the right -->
+    <footer class="footbar">
+        <div class="footbar-tools">
+            <button class="term-open term-open--bar" data-term-open aria-label="Open terminal (T)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+                <span class="term-open-label">terminal <kbd>t</kbd></span>
+            </button>
+            <a href="#" aria-label="GitHub" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                    </path>
+                </svg></a>
+            <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                </svg></a>
+        </div>
+
+        <nav class="pager" aria-label="Sections">
+            <span class="pager-count"><span id="pager-current">00</span> / 04</span>
+            <div class="pager-ticks">
+                <a href="#top" class="pager-tick" data-panel-link aria-label="Home"></a>
+                <a href="#about" class="pager-tick" data-panel-link aria-label="About"></a>
+                <a href="#projects" class="pager-tick" data-panel-link aria-label="Projects"></a>
+                <a href="#contact" class="pager-tick" data-panel-link aria-label="Contact"></a>
+                <a href="#system" class="pager-tick" data-panel-link aria-label="HD 110067"></a>
+            </div>
+            <span class="pager-keys" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd></span>
+        </nav>
+
+        <a href="mailto:mat.scaringella@gmail.com" class="footbar-email">mat.scaringella@gmail.com</a>
+    </footer>
+
+    <!-- Terminal mode: the whole site as a shell -->
+    <div class="terminal" id="terminal" role="dialog" aria-modal="true" aria-label="Terminal" aria-hidden="true">
+        <div class="term-bar">
+            <span class="term-title">visitor@scaringella <span class="term-dim">— tty1</span></span>
+            <button class="term-close" id="term-close" aria-label="Close terminal"><kbd>esc</kbd> exit</button>
+        </div>
+        <div class="term-body" id="term-body">
+            <div class="term-output" id="term-output" aria-live="polite"></div>
+            <form class="term-line" id="term-form" autocomplete="off">
+                <label class="term-prompt" id="term-prompt" for="term-input"></label>
+                <input class="term-input" id="term-input" type="text" autocomplete="off" autocapitalize="off"
+                    autocorrect="off" spellcheck="false" enterkeyhint="go">
+            </form>
+        </div>
+    </div>
+
+    <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"></span></div>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/system.js"></script>
+    <script src="assets/js/terminal.js"></script>
+</body>
+
+</html>

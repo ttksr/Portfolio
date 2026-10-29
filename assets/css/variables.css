@@ -1,0 +1,71 @@
+/* Variables CSS */
+
+:root {
+    /* Couleurs - Thème sombre (défaut) */
+    --color-background: #0a0c0f;
+    --color-surface: #0f1216;
+    --color-surface-2: #141920;
+    --color-line: rgba(255, 255, 255, 0.07);
+    --color-line-strong: rgba(255, 255, 255, 0.14);
+
+    --color-text: #e7eaee;
+    --color-text-muted: #8b94a1;
+    --color-text-faint: #565f6b;
+
+    /* Accent unique, froid et désaturé */
+    --color-accent: #7fd1c1;
+    --color-accent-soft: rgba(127, 209, 193, 0.12);
+    --color-accent-glow: rgba(127, 209, 193, 0.35);
+
+    --color-redact: #e7eaee;
+    --color-star: #f2c48d;
+    --grid-dot: 255, 255, 255;
+    --grid-dot-active: 127, 209, 193;
+
+    /* Polices */
+    --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-family-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+
+    /* Espacements */
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 4rem;
+    --gutter: clamp(16px, 5vw, 50px);
+
+    /* Layout frame: one outer margin, one side column, one content line, one title line */
+    --frame: 40px;
+    --side: 140px;
+    --content-x: calc(var(--frame) + var(--side));
+    --anchor: clamp(110px, 20vh, 190px);
+    --bar-h: 80px;
+
+    /* Bordures */
+    --border-radius: 10px;
+
+    /* Mouvement */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Light Mode Overrides */
+:root[data-theme="light"] {
+    --color-background: #f3f4f1;
+    --color-surface: #ffffff;
+    --color-surface-2: #eceee9;
+    --color-line: rgba(0, 0, 0, 0.08);
+    --color-line-strong: rgba(0, 0, 0, 0.16);
+
+    --color-text: #101418;
+    --color-text-muted: #525b66;
+    --color-text-faint: #8a929c;
+
+    --color-accent: #1d7f6e;
+    --color-accent-soft: rgba(29, 127, 110, 0.1);
+    --color-accent-glow: rgba(29, 127, 110, 0.25);
+
+    --color-redact: #101418;
+    --color-star: #c9822e;
+    --grid-dot: 0, 0, 0;
+    --grid-dot-active: 29, 127, 110;
+}
