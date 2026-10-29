@@ -13,6 +13,16 @@
     try { path = decodeURIComponent(raw); } catch (e) { } // malformed %-sequences: show as typed
     document.getElementById('nf-path').textContent = path.length > 60 ? path.slice(0, 57) + '…' : path;
 
+    // The vault isn't on the server: point curious players back to the terminal
+    if (path.startsWith('/.vault')) {
+        const vault = {
+            en: ['Good reflex. Wrong place.', 'The vault isn’t on the server. It lives closer to you: open the terminal on the home page (press t).'],
+            fr: ['Bon réflexe. Mauvais endroit.', 'Le coffre n’est pas sur le serveur. Il est plus près de vous : ouvrez le terminal sur l’accueil (touche t).']
+        }[lang];
+        document.querySelector('.nf-title').textContent = vault[0];
+        document.querySelector('.nf-text').textContent = vault[1];
+    }
+
     const ticks = document.querySelector('.nf-ticks');
     for (let i = 0; i < 60; i++) {
         const major = i % 5 === 0;

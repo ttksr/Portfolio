@@ -204,12 +204,16 @@
         },
         ls: {
             desc: 'list files',
-            usage: '[dir]',
-            run(args) {
+            usage: '[-a] [dir]',
+            run(argv) {
+                // -a / -la / -al: also show hidden (dot) entries
+                const showAll = argv.some(a => /^-[a-z]*a/.test(a));
+                const args = argv.filter(a => !a.startsWith('-'));
                 const path = resolve(args[0] ?? '.');
                 if (files[path]) return line(args[0]);
                 if (!dirs[path]) return line(`ls: cannot access '${args[0]}': no such directory`, 'term-error');
-                line(dirs[path].map(name => {
+                const entries = dirs[path].filter(name => showAll || !name.startsWith('.'));
+                line(entries.map(name => {
                     const isDir = name.endsWith('/');
                     const target = (path === cwd ? '' : (args[0].replace(/\/$/, '') + '/')) + name;
                     return cmdLink(name, isDir ? `cd ${target} && ls` : `cat ${target}`, isDir ? 'term-dir' : '');
@@ -326,6 +330,9 @@
         }
     };
 
+    // The vault (assets/js/ctf.js): hidden files and its own commands
+    window.CTF?.install({ commands, files, dirs, line, span, cmdLink, resolve });
+
     const aliases = { quit: 'exit', q: 'exit', dir: 'ls', ll: 'ls', cls: 'clear', goto: 'open' };
 
     async function runOne(raw) {
@@ -378,6 +385,7 @@
             const slash = last.lastIndexOf('/');
             base = slash >= 0 ? last.slice(0, slash + 1) : '';
             candidates = dirs[resolve(base || '.')] || [];
+            if (!last.slice(base.length).startsWith('.')) candidates = candidates.filter(c => !c.startsWith('.'));
             if (cmd === 'cd') candidates = candidates.filter(c => c.endsWith('/'));
         }
 

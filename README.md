@@ -6,8 +6,6 @@ no third-party request.
 
 **Live:** https://ttksr.github.io/Portfolio/
 
-![Preview](assets/img/og.png)
-
 ---
 
 ## Features
@@ -16,6 +14,9 @@ no third-party request.
   navigable by menu, keyboard (`←` `→`, `0`–`6`), mouse wheel or swipe. Deep links work (`#writeups`).
 - **Terminal mode.** Press `t` (or click `>_`): the whole site becomes a shell — `ls`, `cd`, `cat`,
   `open`, zsh-style tab completion with a selectable menu, history. It reads the same content as the page.
+- **The Vault.** A small CTF hidden in the site — four locks, from beginner to expert
+  (recon, classical crypto, signal analysis, reversing a custom VM). Type `ctf` in the terminal.
+  Only the SHA-256 digests of the flags are shipped.
 - **Session log.** A live, access-log style trace of what the visitor does (`GET /about`,
   `inspect secure-chat.md`), also readable with `cat session.log`.
 - **Lab — HD 110067.** A real-time view of six exoplanets, computed from the published transit
@@ -78,9 +79,11 @@ assets/
     main.js                panels, navigation, background, cursor, session log
     system.js              HD 110067 lab: ephemerides, orbit view, planet rendering
     terminal.js            terminal mode
+    ctf.js                 the vault: progress, hints, and the VM for lock 4
   fonts/                   Inter, JetBrains Mono (woff2, latin)
   img/                     link preview, touch icon
   pgp/pubkey.asc           public key
+  ctf/                     the vault's files (challenge material, no flags in clear)
 ```
 
 ## Run locally
