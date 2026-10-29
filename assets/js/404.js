@@ -8,7 +8,7 @@
     });
 
     // The path is shown as text only (never as HTML), and shortened if someone pastes a novel in the URL
-    const raw = location.pathname.replace(/^\/Portfolio/, '') || '/';
+    const raw = location.pathname || '/';
     let path = raw;
     try { path = decodeURIComponent(raw); } catch (e) { } // malformed %-sequences: show as typed
     document.getElementById('nf-path').textContent = path.length > 60 ? path.slice(0, 57) + '…' : path;

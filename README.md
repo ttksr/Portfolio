@@ -4,7 +4,7 @@ Personal portfolio of a cybersecurity student at Ynov: projects, CTF writeups, c
 and a small live astronomy lab. Hand-written HTML, CSS and JavaScript, no framework, no build step,
 no third-party request.
 
-**Live:** https://ttksr.github.io/Portfolio/
+**Live:** https://matteoscaringella.dev/
 
 ---
 
@@ -40,8 +40,10 @@ The site is small, but treated like production:
   fingerprint `61BF A2DD D908 3789 7E6B  8B1A FD46 6D32 77FE 602F`.
 - `rel="noopener noreferrer"` on external links, strict referrer policy.
 
-**Known limit:** GitHub Pages doesn't allow custom HTTP headers, so HSTS, `frame-ancestors` and
-`Permissions-Policy` can't be set (a CSP `<meta>` can't carry `frame-ancestors`).
+- **HTTP security headers** (Cloudflare Pages, [`_headers`](_headers)): the same CSP plus `frame-ancestors 'none'`,
+  HSTS, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`,
+  `Cross-Origin-Opener-Policy` / `Cross-Origin-Resource-Policy`. The `.dev` TLD is itself HSTS-preloaded:
+  browsers never reach the site over plain HTTP.
 
 ## Accessibility & performance
 
@@ -68,7 +70,7 @@ Interface texts (menus, buttons, section intros) are in `assets/js/i18n.js`.
 index.html                 the page (seven panels)
 404.html                   custom "not found" page
 .well-known/security.txt   security contact (RFC 9116)
-.nojekyll                  lets GitHub Pages publish .well-known/
+_headers                   HTTP security headers (Cloudflare Pages)
 assets/
   data/content.js          ← site content
   css/                     reset, self-hosted fonts, design tokens, styles, no-JS fallback
@@ -95,7 +97,7 @@ python3 -m http.server 8000
 # → http://localhost:8000
 ```
 
-(The 404 page uses absolute `/Portfolio/…` paths, as served by GitHub Pages.)
+(Hosted on Cloudflare Pages: the custom 404 page and the `_headers` file only apply there.)
 
 ## Credits
 

@@ -4,4 +4,4 @@ Allow: /
 # ops: the vault moved off the server. Hidden files are hidden, not gone.
 Disallow: /.vault/
 
-Sitemap: https://ttksr.github.io/Portfolio/sitemap.xml
+Sitemap: https://matteoscaringella.dev/sitemap.xml

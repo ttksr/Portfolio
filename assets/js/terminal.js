@@ -57,8 +57,8 @@
             `Contact: mailto:${email}`,
             'Expires: 2027-10-29T00:00:00.000Z',
             'Preferred-Languages: fr, en',
-            C.profile.pgp ? `Encryption: https://ttksr.github.io/Portfolio/${C.profile.pgp}` : null,
-            'Canonical: https://ttksr.github.io/Portfolio/.well-known/security.txt'
+            C.profile.pgp ? `Encryption: https://matteoscaringella.dev/${C.profile.pgp}` : null,
+            'Canonical: https://matteoscaringella.dev/.well-known/security.txt'
         ].filter(Boolean).join('\n'),
         // The real key file (same origin, allowed by the CSP); falls back to its link when fetch isn't possible
         '~/pubkey.asc': async () => {
