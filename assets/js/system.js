@@ -95,12 +95,20 @@
     const rows = PLANETS.map(p => {
         const tr = document.createElement('tr');
         tr.dataset.planet = p.id;
-        tr.innerHTML = `
-            <td><button type="button" class="planet-pick">${p.id}</button></td>
-            <td>${p.P.toFixed(3)}</td>
-            <td>${p.R.toFixed(2)}</td>
-            <td class="col-teq">${p.Teq}</td>
-            <td class="planet-next"></td>`;
+        // DOM nodes, not an HTML string (the page enforces Trusted Types)
+        const cell = (text, cls) => {
+            const td = document.createElement('td');
+            if (cls) td.className = cls;
+            td.textContent = text;
+            return td;
+        };
+        const pick = document.createElement('button');
+        pick.type = 'button';
+        pick.className = 'planet-pick';
+        pick.textContent = p.id;
+        const first = document.createElement('td');
+        first.appendChild(pick);
+        tr.append(first, cell(p.P.toFixed(3)), cell(p.R.toFixed(2)), cell(String(p.Teq), 'col-teq'), cell('', 'planet-next'));
         tr.addEventListener('click', () => select(p.id));
         tr.addEventListener('mouseenter', () => { hovered = p.id; });
         tr.addEventListener('mouseleave', () => { hovered = null; });

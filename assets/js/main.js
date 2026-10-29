@@ -56,7 +56,6 @@ menuToggle.addEventListener('click', () => setMenu(!body.classList.contains('men
 // --- Text scramble ("decrypt" effect) ---
 
 const GLYPHS = '0123456789abcdef#%&*+=<>/\\';
-const escapeHtml = ch => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[ch] || ch);
 
 function scramble(el) {
     const finalText = el.dataset.text;
@@ -73,18 +72,26 @@ function scramble(el) {
     // Each character resolves at a random moment, biased left-to-right
     const resolveAt = [...finalText].map((_, i) => (i / finalText.length) * 0.6 + Math.random() * 0.4);
 
+    // Built with DOM nodes, never with an HTML string: the page enforces Trusted Types,
+    // so innerHTML is off-limits by design.
     function frame(now) {
         const t = Math.min((now - start) / duration, 1);
-        let html = '';
+        const nodes = [];
+        let plain = '';
         for (let i = 0; i < finalText.length; i++) {
             const ch = finalText[i];
             if (ch === ' ' || t >= resolveAt[i]) {
-                html += escapeHtml(ch);
+                plain += ch;
             } else {
-                html += `<span class="glyph">${escapeHtml(GLYPHS[(Math.random() * GLYPHS.length) | 0])}</span>`;
+                if (plain) { nodes.push(document.createTextNode(plain)); plain = ''; }
+                const glyph = document.createElement('span');
+                glyph.className = 'glyph';
+                glyph.textContent = GLYPHS[(Math.random() * GLYPHS.length) | 0];
+                nodes.push(glyph);
             }
         }
-        el.innerHTML = html;
+        if (plain) nodes.push(document.createTextNode(plain));
+        el.replaceChildren(...nodes);
         if (t < 1) requestAnimationFrame(frame);
         else delete el.dataset.scrambling;
     }

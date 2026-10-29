@@ -31,10 +31,12 @@ The site is small, but treated like production:
 - **No third party.** Fonts are self-hosted (SIL OFL licences in `assets/fonts/`); no CDN, no analytics,
   no cookies, no tracker. The browser never talks to another domain.
 - **Strict Content-Security-Policy** (meta tag):
-  `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests`.
+  `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types 'none'; upgrade-insecure-requests`.
   No inline script — even the pre-paint theme script lives in its own file (`boot.js`).
-- **No markup injection.** Content is inserted as text nodes, never through `innerHTML`; links from the
-  content file are restricted to `http(s)`, `mailto` and relative paths.
+- **No markup injection, enforced by the browser.** The CSP requires **Trusted Types** with no policy
+  allowed (`require-trusted-types-for 'script'; trusted-types 'none'`): `innerHTML` and the other DOM
+  XSS sinks simply refuse strings. The code builds everything with DOM nodes; links from the content
+  file are restricted to `http(s)`, `mailto` and relative paths.
 - **[`/.well-known/security.txt`](.well-known/security.txt)** (RFC 9116) with a contact and an encryption key,
   **signed with the PGP key** below (`gpg --verify security.txt`).
 - **PGP key** published in [`assets/pgp/pubkey.asc`](assets/pgp/pubkey.asc) —
