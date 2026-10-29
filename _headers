@@ -12,7 +12,6 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Resource-Policy: same-origin
   X-Robots-Tag: noindex, nofollow
 
 /.well-known/security.txt
@@ -21,7 +20,38 @@
 /assets/pgp/pubkey.asc
   Content-Type: application/pgp-keys
 
-# The link-preview image and the touch icon are meant to be shown by other sites
+# Cross-Origin-Resource-Policy, path by path: everything stays same-origin, except the
+# link-preview image and the touch icon, which other sites are meant to display.
+# (Set per path rather than overridden: Pages joins or drops duplicated headers.)
+/
+  Cross-Origin-Resource-Policy: same-origin
+
+/index.html
+  Cross-Origin-Resource-Policy: same-origin
+
+/404.html
+  Cross-Origin-Resource-Policy: same-origin
+
+/.well-known/*
+  Cross-Origin-Resource-Policy: same-origin
+
+/assets/css/*
+  Cross-Origin-Resource-Policy: same-origin
+
+/assets/js/*
+  Cross-Origin-Resource-Policy: same-origin
+
+/assets/data/*
+  Cross-Origin-Resource-Policy: same-origin
+
+/assets/fonts/*
+  Cross-Origin-Resource-Policy: same-origin
+
+/assets/pgp/*
+  Cross-Origin-Resource-Policy: same-origin
+
+/assets/ctf/*
+  Cross-Origin-Resource-Policy: same-origin
+
 /assets/img/*
-  ! Cross-Origin-Resource-Policy
   Cross-Origin-Resource-Policy: cross-origin
