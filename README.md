@@ -43,8 +43,15 @@ The site is small, but treated like production:
   HSTS, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`,
   `Cross-Origin-Opener-Policy` / `Cross-Origin-Resource-Policy`. The `.dev` TLD is itself HSTS-preloaded:
   browsers never reach the site over plain HTTP.
-- Results (2026-10-29): **A+** on [securityheaders.com](https://securityheaders.com/?q=matteoscaringella.dev&followRedirects=on)
-  and **A+ (145/100)** on [Mozilla Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=matteoscaringella.dev).
+- **Domain:** DNSSEC-signed zone, and anti-spoofing for a domain that sends no mail
+  (SPF `-all`, DMARC `p=reject`, empty DKIM key).
+- Results (2026-10-29):
+  - **A+** on [securityheaders.com](https://securityheaders.com/?q=matteoscaringella.dev&followRedirects=on)
+  - **A+ (145/100)** on [Mozilla Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=matteoscaringella.dev)
+  - **100 %** on the [internet.nl](https://internet.nl/mail/matteoscaringella.dev/) email test (Hall of Fame)
+  - **95 %** on the [internet.nl](https://internet.nl/site/matteoscaringella.dev/) website test — the two remaining
+    points (cipher-suite order, SHA-1 accepted for the TLS 1.2 key-exchange signature) are fixed at Cloudflare's
+    edge and can't be changed on the free plan; modern browsers negotiate TLS 1.3 (AES-256-GCM) anyway.
 
 ## Accessibility & performance
 
