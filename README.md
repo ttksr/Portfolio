@@ -39,16 +39,18 @@ The site is small, but treated like production:
 - **PGP key** published in [`assets/pgp/pubkey.asc`](assets/pgp/pubkey.asc) —
   fingerprint `61BF A2DD D908 3789 7E6B  8B1A FD46 6D32 77FE 602F`.
 - `rel="noopener noreferrer"` on external links, strict referrer policy.
-
 - **HTTP security headers** (Cloudflare Pages, [`_headers`](_headers)): the same CSP plus `frame-ancestors 'none'`,
   HSTS, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`,
   `Cross-Origin-Opener-Policy` / `Cross-Origin-Resource-Policy`. The `.dev` TLD is itself HSTS-preloaded:
   browsers never reach the site over plain HTTP.
+- Results (2026-10-29): **A+** on [securityheaders.com](https://securityheaders.com/?q=matteoscaringella.dev&followRedirects=on)
+  and **A+ (145/100)** on [Mozilla Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=matteoscaringella.dev).
 
 ## Accessibility & performance
 
-- Lighthouse (local run, 2026-10-29): **100 / 100 / 100 / 100** on desktop
-  (performance, accessibility, best practices, SEO); on mobile, ~90 for performance (simulated slow 4G), 100 for the rest.
+- Lighthouse on the live site (2026-10-29): **100 / 100 / 100** on desktop for performance, accessibility
+  and best practices; on mobile, 97 for performance and 100 for the rest. (SEO will read 100 once the
+  temporary `noindex` is lifted.)
 - Colours meet WCAG AA contrast in both themes.
 - Fully keyboard-usable; focus moves to each section's title on navigation and back to the opener when
   a detail view closes. Animated titles keep a clean text alternative for screen readers.

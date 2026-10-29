@@ -20,3 +20,8 @@
 
 /assets/pgp/pubkey.asc
   Content-Type: application/pgp-keys
+
+# The link-preview image and the touch icon are meant to be shown by other sites
+/assets/img/*
+  ! Cross-Origin-Resource-Policy
+  Cross-Origin-Resource-Policy: cross-origin
