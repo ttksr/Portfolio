@@ -159,7 +159,6 @@ window.CONTENT = {
             // Title of the final degree, obtained at the end of the program
             name: { en: 'Cybersecurity Expert', fr: 'Expert en Cybersécurité' },
             school: 'Ynov Campus',
-            dates: '',                       // e.g. '2024 — 2029'
             status: 'in-progress'
         }
     ]
