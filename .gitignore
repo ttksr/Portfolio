@@ -1,0 +1,9 @@
+# Private material: must never enter this repository (also enforced by .githooks/check-secrets.sh)
+KeysPortfolio/
+CTF-private/
+private-key.asc
+*.rev
+*.pem
+*.key
+.env
+.env.*

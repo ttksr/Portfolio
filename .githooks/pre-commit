@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Runs the leak guard on what is about to be committed.
+# Enabled per clone with:  git config core.hooksPath .githooks
+exec "$(git rev-parse --show-toplevel)/.githooks/check-secrets.sh" --staged

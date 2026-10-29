@@ -54,6 +54,19 @@ The site is small, but treated like production:
     points (cipher-suite order, SHA-1 accepted for the TLS 1.2 key-exchange signature) are fixed at Cloudflare's
     edge and can't be changed on the free plan; modern browsers negotiate TLS 1.3 (AES-256-GCM) anyway.
 
+## Leak guard
+
+The repository sits next to private material (the PGP private key, the CTF solutions), so leaks are
+blocked twice:
+
+- **Before each commit** — [`.githooks/check-secrets.sh`](.githooks/check-secrets.sh) refuses private
+  keys, revocation certificates, private files, and CTF flags in clear. Flags are recognised by their
+  SHA-256 (the digests already in `ctf.js`), so the guard itself contains no flag. Enable it once per clone:
+  `git config core.hooksPath .githooks`
+- **On every push** — the [Leak guard workflow](.github/workflows/leak-guard.yml) runs the same rules on
+  every file and on the whole history, then [gitleaks](https://github.com/gitleaks/gitleaks) (binary
+  checked against its published SHA-256 before running).
+
 ## Accessibility & performance
 
 - Lighthouse on the live site (2026-10-29): **100 / 100 / 100** on desktop for performance, accessibility
