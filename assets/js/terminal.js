@@ -52,14 +52,16 @@
         ].join('\n'),
         '~/hd110067.txt': () => window.site.system.describe(),
         '~/session.log': () => window.site.logEntries.map(e => `${e.time}  ${e.text}`).join('\n'),
-        // Same as /.well-known/security.txt (RFC 9116)
-        '~/security.txt': () => [
-            `Contact: mailto:${email}`,
-            'Expires: 2027-10-29T00:00:00.000Z',
-            'Preferred-Languages: fr, en',
-            C.profile.pgp ? `Encryption: https://matteoscaringella.dev/${C.profile.pgp}` : null,
-            'Canonical: https://matteoscaringella.dev/.well-known/security.txt'
-        ].filter(Boolean).join('\n'),
+        // The published /.well-known/security.txt itself (RFC 9116, PGP-signed): one source of truth
+        '~/security.txt': async () => {
+            try {
+                const res = await fetch('.well-known/security.txt');
+                if (!res.ok) throw new Error(res.status);
+                return (await res.text()).trim() + "\n\n(verify the signature: gpg --verify security.txt)";
+            } catch (e) {
+                return `Contact: mailto:${email}\n(full file: /.well-known/security.txt)`;
+            }
+        },
         // The real key file (same origin, allowed by the CSP); falls back to its link when fetch isn't possible
         '~/pubkey.asc': async () => {
             if (!C.profile.pgp) return 'no public key published yet.';

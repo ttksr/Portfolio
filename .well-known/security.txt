@@ -1,3 +1,6 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
 # Security contact for this website (RFC 9116)
 # Found a vulnerability on this site? Thank you, please write to the address below.
 
@@ -6,3 +9,10 @@ Expires: 2027-10-29T00:00:00.000Z
 Encryption: https://matteoscaringella.dev/assets/pgp/pubkey.asc
 Preferred-Languages: fr, en
 Canonical: https://matteoscaringella.dev/.well-known/security.txt
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQRhv6Ld2Qg3iX5rixr9Rm0yd/5gLwUCauOhZQAKCRD9Rm0yd/5g
+L0NiAPwMU1C/G2nidR6squpjVVpim5fpQNsN/BBh0GvXtKlTywEAiYkm8VSCvEDT
+dr+GmbcoLKY7cSuEry3b7eEk1SbOHw8=
+=7Ydd
+-----END PGP SIGNATURE-----

@@ -35,7 +35,8 @@ The site is small, but treated like production:
   No inline script — even the pre-paint theme script lives in its own file (`boot.js`).
 - **No markup injection.** Content is inserted as text nodes, never through `innerHTML`; links from the
   content file are restricted to `http(s)`, `mailto` and relative paths.
-- **[`/.well-known/security.txt`](.well-known/security.txt)** (RFC 9116) with a contact and an encryption key.
+- **[`/.well-known/security.txt`](.well-known/security.txt)** (RFC 9116) with a contact and an encryption key,
+  **signed with the PGP key** below (`gpg --verify security.txt`).
 - **PGP key** published in [`assets/pgp/pubkey.asc`](assets/pgp/pubkey.asc) —
   fingerprint `61BF A2DD D908 3789 7E6B  8B1A FD46 6D32 77FE 602F`.
 - `rel="noopener noreferrer"` on external links, strict referrer policy.
@@ -114,5 +115,10 @@ python3 -m http.server 8000
   HD 110067*, Nature 623, 932–937 (2023).
 - Fonts: [Inter](https://github.com/rsms/inter) and [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono),
   SIL Open Font License 1.1.
+
+## License
+
+Code under the [MIT license](LICENSE). Personal content (texts, writeups, images), the CTF material and
+the PGP key are not covered: all rights reserved. Fonts keep their own SIL Open Font License.
 
 © Matteo Scaringella
