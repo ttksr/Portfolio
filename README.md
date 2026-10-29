@@ -69,6 +69,11 @@ blocked twice:
   every file and on the whole history, then [gitleaks](https://github.com/gitleaks/gitleaks) (binary
   checked against its published SHA-256 before running).
 
+## Static analysis
+
+[CodeQL](.github/workflows/codeql.yml) analyses the JavaScript (`security-extended` queries) and the
+GitHub Actions workflows on every push and every Monday. Results are in the repository's Security tab.
+
 ## Accessibility & performance
 
 - Lighthouse on the live site (2026-10-29): **100 / 100 / 100** on desktop for performance, accessibility
