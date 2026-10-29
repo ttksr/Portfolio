@@ -10,7 +10,7 @@
 
     --color-text: #e7eaee;
     --color-text-muted: #8b94a1;
-    --color-text-faint: #565f6b;
+    --color-text-faint: #78818d; /* 4.9:1 on background, 4.7:1 on cards (WCAG AA) */
 
     /* Accent unique, froid et désaturé */
     --color-accent: #7fd1c1;
@@ -58,14 +58,14 @@
 
     --color-text: #101418;
     --color-text-muted: #525b66;
-    --color-text-faint: #8a929c;
+    --color-text-faint: #656d77; /* 4.8:1 (WCAG AA) */
 
-    --color-accent: #1d7f6e;
-    --color-accent-soft: rgba(29, 127, 110, 0.1);
-    --color-accent-glow: rgba(29, 127, 110, 0.25);
+    --color-accent: #1a7465;     /* 5.1:1 (WCAG AA) */
+    --color-accent-soft: rgba(26, 116, 101, 0.1);
+    --color-accent-glow: rgba(26, 116, 101, 0.25);
 
     --color-redact: #101418;
     --color-star: #c9822e;
     --grid-dot: 0, 0, 0;
-    --grid-dot-active: 29, 127, 110;
+    --grid-dot-active: 26, 116, 101;
 }

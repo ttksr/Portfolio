@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="noindex">
+    <title>404 — Matteo Scaringella</title>
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#0a0c0f">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237fd1c1' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M12 2v20M4.93 4.93l14.14 14.14M2 12h20M19.07 4.93L4.93 19.07'/%3E%3C/svg%3E">
+
+    <!-- GitHub Pages serves this page for any missing URL, at any depth: paths must be absolute.
+         If the site moves (custom domain), replace "/Portfolio/" everywhere in this file. -->
+    <link rel="stylesheet" href="/Portfolio/assets/css/reset.css">
+    <link rel="stylesheet" href="/Portfolio/assets/css/fonts.css">
+    <link rel="stylesheet" href="/Portfolio/assets/css/variables.css">
+    <link rel="stylesheet" href="/Portfolio/assets/css/404.css">
+    <script src="/Portfolio/assets/js/boot.js"></script>
+</head>
+
+<body class="nf">
+    <a href="/Portfolio/" class="nf-logo" aria-label="Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="2" x2="12" y2="22"></line>
+            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+        </svg>
+    </a>
+
+    <!-- The vault dial again: this door stays locked -->
+    <div class="nf-dial" aria-hidden="true">
+        <svg viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="190" class="nf-stroke" />
+            <g class="nf-ticks"></g>
+            <circle cx="200" cy="200" r="150" class="nf-stroke nf-dashed" />
+            <circle cx="200" cy="200" r="110" class="nf-stroke nf-arc" />
+            <circle cx="200" cy="200" r="4" class="nf-core" />
+            <line x1="200" y1="2" x2="200" y2="22" class="nf-index" />
+        </svg>
+    </div>
+
+    <main class="nf-main">
+        <p class="nf-log"><span class="nf-method">GET</span> <span id="nf-path">/</span> <span class="nf-status">→ 404</span></p>
+        <h1 class="nf-code">404</h1>
+        <p class="nf-title" data-en="Nothing behind this door." data-fr="Rien derrière cette porte.">Nothing behind this door.</p>
+        <p class="nf-text"
+            data-en="The page you asked for doesn’t exist, or it moved. The rest of the site is one click away."
+            data-fr="La page demandée n’existe pas, ou elle a été déplacée. Le reste du site est à un clic.">
+            The page you asked for doesn’t exist, or it moved. The rest of the site is one click away.</p>
+        <a href="/Portfolio/" class="nf-btn" data-en="Back to the portfolio" data-fr="Retour au portfolio">Back to the portfolio</a>
+    </main>
+
+    <script src="/Portfolio/assets/js/404.js"></script>
+</body>
+
+</html>

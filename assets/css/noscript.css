@@ -1,0 +1,58 @@
+/* Without JavaScript: no panels, just a readable page that scrolls */
+
+html,
+body {
+    height: auto;
+    overflow: auto;
+}
+
+.stage {
+    position: static;
+}
+
+.panel {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    filter: none;
+    min-height: 0;
+    padding-top: 120px;
+    padding-bottom: 40px;
+}
+
+.panel--hero {
+    min-height: 100vh;
+}
+
+.footbar,
+.pager,
+.session-log,
+.dial,
+.bg-grid,
+.orbit-view,
+.system-controls,
+.term-open,
+.lang-toggle,
+.theme-toggle,
+.planet-table,
+.cursor {
+    display: none !important;
+}
+
+.header {
+    position: absolute;
+}
+
+.noscript-note {
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin-bottom: 24px;
+}
+
+.noscript-note a {
+    color: var(--color-accent);
+}

@@ -199,7 +199,7 @@
     document.getElementById('orbit-back').addEventListener('click', () => select(null));
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && selected && body.dataset.panel === 'system' && !body.classList.contains('term-active')) {
+        if (e.key === 'Escape' && selected && body.dataset.panel === 'lab' && !body.classList.contains('term-active')) {
             select(null);
         }
     });
@@ -1017,7 +1017,7 @@
         if (rate === 1) simMs = Date.now();
         else simMs += dt * rate;
 
-        if (body.dataset.panel === 'system' && !document.hidden && !body.classList.contains('term-active')) {
+        if (body.dataset.panel === 'lab' && !document.hidden && !body.classList.contains('term-active')) {
             const tjd = toTjd(simMs);
             const t = zoomProgress(now);
             shading.frame++;

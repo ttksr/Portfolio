@@ -1,0 +1,8 @@
+# Security contact for this website (RFC 9116)
+# Found a vulnerability on this site? Thank you, please write to the address below.
+
+Contact: mailto:mat.scaringella@gmail.com
+Expires: 2027-10-29T00:00:00.000Z
+Encryption: https://ttksr.github.io/Portfolio/assets/pgp/pubkey.asc
+Preferred-Languages: fr, en
+Canonical: https://ttksr.github.io/Portfolio/.well-known/security.txt

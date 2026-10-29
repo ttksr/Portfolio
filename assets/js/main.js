@@ -21,6 +21,23 @@ function setTheme(theme) {
 
 themeToggle.addEventListener('click', () => setTheme(root.dataset.theme === 'light' ? 'dark' : 'light'));
 
+// --- Language ---
+
+document.getElementById('lang-toggle').addEventListener('click', () => {
+    const next = window.i18n.lang === 'fr' ? 'en' : 'fr';
+    window.i18n.setLang(next);
+    sessionLog.log(`lang → ${next}`);
+});
+
+// Scrambled titles keep their final text (and their screen-reader label) in sync with the language
+document.addEventListener('langchange', () => {
+    document.querySelectorAll('[data-scramble]').forEach(el => {
+        el.dataset.text = el.textContent.trim();
+        if (el.nextElementSibling?.classList.contains('sr-only')) el.nextElementSibling.textContent = el.dataset.text;
+    });
+    setMenu(body.classList.contains('menu-open'));
+});
+
 // The terminal overlay owns the keyboard and the wheel while it's open
 const terminalOpen = () => body.classList.contains('term-active');
 
@@ -31,7 +48,7 @@ const menuToggle = document.getElementById('menu-toggle');
 function setMenu(open) {
     body.classList.toggle('menu-open', open);
     menuToggle.setAttribute('aria-expanded', String(open));
-    menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menuToggle.setAttribute('aria-label', window.i18n.t(open ? 'aria.menuClose' : 'aria.menu'));
 }
 
 menuToggle.addEventListener('click', () => setMenu(!body.classList.contains('menu-open')));
@@ -39,6 +56,7 @@ menuToggle.addEventListener('click', () => setMenu(!body.classList.contains('men
 // --- Text scramble ("decrypt" effect) ---
 
 const GLYPHS = '0123456789abcdef#%&*+=<>/\\';
+const escapeHtml = ch => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[ch] || ch);
 
 function scramble(el) {
     const finalText = el.dataset.text;
@@ -61,9 +79,9 @@ function scramble(el) {
         for (let i = 0; i < finalText.length; i++) {
             const ch = finalText[i];
             if (ch === ' ' || t >= resolveAt[i]) {
-                html += ch;
+                html += escapeHtml(ch);
             } else {
-                html += `<span class="glyph">${GLYPHS[(Math.random() * GLYPHS.length) | 0]}</span>`;
+                html += `<span class="glyph">${escapeHtml(GLYPHS[(Math.random() * GLYPHS.length) | 0])}</span>`;
             }
         }
         el.innerHTML = html;
@@ -114,13 +132,18 @@ const pathOf = index => (ids[index] === 'top' ? '/' : '/' + ids[index]);
 function updateIndicators(index) {
     const id = ids[index];
     body.dataset.panel = id;
-    navLinks.forEach(link => link.classList.toggle('active', link.hash === '#' + id));
+    navLinks.forEach(link => {
+        const active = link.hash === '#' + id;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+    });
     pagerTicks.forEach((tick, i) => tick.classList.toggle('active', i === index));
     pagerCurrent.textContent = String(index).padStart(2, '0');
     progress.style.transform = `scaleX(${index / (panels.length - 1)})`;
 }
 
-function goTo(index, { push = true } = {}) {
+function goTo(index, { push = true, focus = false } = {}) {
     index = Math.max(0, Math.min(panels.length - 1, index));
     setMenu(false);
     if (index === current) return;
@@ -156,6 +179,16 @@ function goTo(index, { push = true } = {}) {
     sessionLog.log(`GET ${pathOf(index)}`, 'nav');
 
     if (push) history.pushState(null, '', index === 0 ? location.pathname : '#' + ids[index]);
+    document.dispatchEvent(new CustomEvent('panelchange', { detail: { id: ids[index] } }));
+
+    // Keyboard users land on the new section's title (mouse users keep their focus where it was)
+    if (focus) {
+        const heading = to.querySelector('h1, h2');
+        if (heading) {
+            heading.setAttribute('tabindex', '-1');
+            heading.focus({ preventScroll: true });
+        }
+    }
 }
 
 // Every in-page link (nav, logo, buttons, pager) switches panels instead of jumping
@@ -164,7 +197,8 @@ document.querySelectorAll('[data-panel-link]').forEach(link => {
         const index = ids.indexOf(link.hash.slice(1));
         if (index === -1) return;
         e.preventDefault();
-        goTo(index);
+        // detail === 0: activated from the keyboard (Enter), not a pointer
+        goTo(index, { focus: e.detail === 0 });
     });
 });
 
@@ -181,27 +215,42 @@ document.addEventListener('keydown', (e) => {
     const next = ['ArrowRight', 'ArrowDown', 'PageDown'];
     const prev = ['ArrowLeft', 'ArrowUp', 'PageUp'];
 
-    if (next.includes(e.key)) { e.preventDefault(); goTo(current + 1); }
-    else if (prev.includes(e.key)) { e.preventDefault(); goTo(current - 1); }
-    else if (e.key === 'Home') goTo(0);
-    else if (e.key === 'End') goTo(panels.length - 1);
-    else if (/^[0-9]$/.test(e.key) && Number(e.key) < panels.length) goTo(Number(e.key));
+    if (next.includes(e.key)) { e.preventDefault(); goTo(current + 1, { focus: true }); }
+    else if (prev.includes(e.key)) { e.preventDefault(); goTo(current - 1, { focus: true }); }
+    else if (e.key === 'Home') goTo(0, { focus: true });
+    else if (e.key === 'End') goTo(panels.length - 1, { focus: true });
+    else if (/^[0-9]$/.test(e.key) && Number(e.key) < panels.length) goTo(Number(e.key), { focus: true });
 });
 
-// Touch: horizontal swipe between panels (the projects strip keeps its own swipe)
+// Touch: swipe between panels. Horizontal swipes always work (the projects strip and the orbit
+// view keep theirs); vertical ones only once the panel can't scroll further in that direction.
 let touchStart = null;
 
 document.addEventListener('touchstart', (e) => {
-    if (e.target.closest('.project-grid, .orbit-view') || body.classList.contains('menu-open') || terminalOpen()) return;
-    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    if (body.classList.contains('menu-open') || terminalOpen()) return;
+    const panel = panels[current];
+    touchStart = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+        horizontalOk: !e.target.closest('.project-grid, .orbit-view, .filters'),
+        verticalOk: !e.target.closest('.orbit-view'),
+        atTop: panel.scrollTop <= 0,
+        atBottom: panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1
+    };
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
     if (!touchStart) return;
-    const dx = e.changedTouches[0].clientX - touchStart.x;
-    const dy = e.changedTouches[0].clientY - touchStart.y;
+    const { x, y, horizontalOk, verticalOk, atTop, atBottom } = touchStart;
+    const dx = e.changedTouches[0].clientX - x;
+    const dy = e.changedTouches[0].clientY - y;
     touchStart = null;
-    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) goTo(current + (dx < 0 ? 1 : -1));
+    if (horizontalOk && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        goTo(current + (dx < 0 ? 1 : -1));
+    } else if (verticalOk && Math.abs(dy) > 80 && Math.abs(dy) > Math.abs(dx) * 1.5) {
+        if (dy < 0 && atBottom) goTo(current + 1);
+        if (dy > 0 && atTop) goTo(current - 1);
+    }
 }, { passive: true });
 
 // Wheel / trackpad: one gesture = one panel. The lock holds until the gesture's
@@ -283,10 +332,10 @@ emailCopy.addEventListener('click', async () => {
         await navigator.clipboard.writeText(email);
         emailCopy.classList.add('copied');
         sessionLog.log('email → clipboard');
-        emailHint.textContent = 'copied';
+        emailHint.textContent = window.i18n.t('contact.copied');
         setTimeout(() => {
             emailCopy.classList.remove('copied');
-            emailHint.textContent = 'copy';
+            emailHint.textContent = window.i18n.t('contact.copy');
         }, 2000);
     } catch (e) {
         window.location.href = `mailto:${email}`;
@@ -562,7 +611,20 @@ const startIndex = Math.max(0, ids.indexOf(location.hash.slice(1)));
 panels.forEach((p, i) => p.classList.toggle('active', i === startIndex));
 current = startIndex;
 updateIndicators(startIndex);
-requestAnimationFrame(() => revealPanel(panels[startIndex]));
+if (startIndex === 0) {
+    // The hero's entrance already runs in CSS (see heroIn): hand over once it has finished
+    setTimeout(() => {
+        panels[0].querySelectorAll('.reveal').forEach(el => {
+            el.style.transitionDelay = '0s';
+            el.classList.add('in');
+            setTimeout(() => { el.style.transitionDelay = ''; }, 50);
+        });
+        panels[0].querySelectorAll('[data-scramble]').forEach(scramble);
+    }, 1200);
+    panels[0].querySelectorAll('[data-scramble]').forEach(el => setTimeout(() => scramble(el), 250));
+} else {
+    requestAnimationFrame(() => revealPanel(panels[startIndex]));
+}
 sessionLog.log(`GET ${pathOf(startIndex)}`, 'nav');
 
 // Shared with terminal.js

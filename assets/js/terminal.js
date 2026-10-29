@@ -25,52 +25,102 @@
     const clean = el => el.textContent.replace(/\s+/g, ' ').trim();
     const slugify = str => str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-    const email = document.getElementById('email-copy').dataset.email;
-    const socialHref = label => document.querySelector(`.footbar-tools a[aria-label="${label}"]`)?.getAttribute('href') || '#';
+    const C = window.CONTENT;
+    const pick = v => window.i18n.pick(v);
+    const email = C.profile.email;
+    const socialHref = key => C.profile[key] || '';
 
-    const projects = [...document.querySelectorAll('.project-card')].map(card => ({
-        file: slugify(card.querySelector('h3').textContent) + '.md',
-        id: clean(card.querySelector('.card-id')),
-        title: clean(card.querySelector('h3')),
-        desc: clean(card.querySelector('p')),
-        tags: [...card.querySelectorAll('.tags li')].map(clean),
-        hash: card.querySelector('.card-hash')
+    const projects = C.projects.map((p, i) => ({
+        ...p,
+        file: p.id + '.md',
+        hash: document.querySelectorAll('#project-grid .card-hash')[i]
     }));
+    const writeups = C.writeups.map(w => ({ ...w, file: (w.id || slugify(w.title)) + '.md' }));
+
+    const section = (title, value) => (pick(value) ? ['', `## ${title}`, pick(value)] : []);
 
     const files = {
         '~/about.txt': () => [...document.querySelectorAll('.about-text p')].map(clean).join('\n\n'),
         '~/skills.txt': () => [...document.querySelectorAll('.focus-item')]
             .map(item => clean(item.querySelector('.focus-key')).padEnd(10) + clean(item.querySelector('.focus-value')))
             .join('\n'),
+        '~/certifications.txt': () => [
+            ...C.certifications.map(c =>
+                `[${c.status.padEnd(11)}] ${pick(c.name)} — ${c.issuer}${c.date ? ' (' + c.date + ')' : ''}${c.example ? '  (example)' : ''}`),
+            '',
+            ...(C.education || []).map(e => `[${e.status.padEnd(11)}] ${pick(e.name)} — ${e.school}${e.dates ? ' (' + e.dates + ')' : ''}`)
+        ].join('\n'),
         '~/hd110067.txt': () => window.site.system.describe(),
         '~/session.log': () => window.site.logEntries.map(e => `${e.time}  ${e.text}`).join('\n'),
+        // Same as /.well-known/security.txt (RFC 9116)
+        '~/security.txt': () => [
+            `Contact: mailto:${email}`,
+            'Expires: 2027-10-29T00:00:00.000Z',
+            'Preferred-Languages: fr, en',
+            C.profile.pgp ? `Encryption: https://ttksr.github.io/Portfolio/${C.profile.pgp}` : null,
+            'Canonical: https://ttksr.github.io/Portfolio/.well-known/security.txt'
+        ].filter(Boolean).join('\n'),
+        // The real key file (same origin, allowed by the CSP); falls back to its link when fetch isn't possible
+        '~/pubkey.asc': async () => {
+            if (!C.profile.pgp) return 'no public key published yet.';
+            try {
+                const res = await fetch(C.profile.pgp);
+                if (!res.ok) throw new Error(res.status);
+                return (await res.text()).trim() + (C.profile.pgpFingerprint ? `\n\nfingerprint: ${C.profile.pgpFingerprint}` : '');
+            } catch (e) {
+                return `public key: ${C.profile.pgp}\nfingerprint: ${C.profile.pgpFingerprint || '?'}\n(run 'open pgp' to download it)`;
+            }
+        },
         '~/contact.txt': () => [
             'email     ' + email,
-            'github    ' + (socialHref('GitHub') === '#' ? '(not linked yet)' : socialHref('GitHub')),
-            'linkedin  ' + (socialHref('LinkedIn') === '#' ? '(not linked yet)' : socialHref('LinkedIn')),
+            'github    ' + (socialHref('github') || '(not linked yet)'),
+            pick(C.profile.seeking) ? '\n' + pick(C.profile.seeking) : null,
             '',
             "tip: run 'email' to copy the address"
-        ].join('\n')
+        ].filter(l => l !== null).join('\n')
     };
 
-    projects.forEach(p => {
+    projects.forEach((p, i) => {
         files['~/projects/' + p.file] = () => [
             `# ${p.title}`,
             '',
-            p.desc,
+            pick(p.summary),
+            ...section('context', p.context),
+            ...section('approach', p.approach),
+            ...section('result', p.result),
             '',
-            `id      ${p.id}`,
-            `tags    ${p.tags.join(', ')}`,
-            p.hash.dataset.text ? `digest  ${p.hash.dataset.text}` : null
+            `id      0x${String(i + 1).padStart(2, '0')}`,
+            `tags    ${(p.tags || []).join(', ')}`,
+            (p.stack || []).length ? `stack   ${p.stack.join(', ')}` : null,
+            p.hash?.dataset.text ? `digest  ${p.hash.dataset.text}` : null,
+            ...(p.links || []).map(l => `link    ${l.label}: ${l.url}`)
+        ].filter(line => line !== null).join('\n');
+    });
+
+    writeups.forEach(w => {
+        files['~/writeups/' + w.file] = () => [
+            `# ${w.title}${w.example ? '  (example)' : ''}`,
+            `${w.platform} · ${w.category} · ${w.difficulty} · ${w.date}`,
+            '',
+            pick(w.summary),
+            '',
+            ...(w.steps || []).map((st, i) => `${i + 1}. ${pick(st)}`),
+            '',
+            (w.tools || []).length ? `tools   ${w.tools.join(', ')}` : null,
+            w.url ? `full    ${w.url}` : null
         ].filter(line => line !== null).join('\n');
     });
 
     const dirs = {
-        '~': ['about.txt', 'skills.txt', 'contact.txt', 'hd110067.txt', 'session.log', 'projects/'],
-        '~/projects': projects.map(p => p.file)
+        '~': ['about.txt', 'skills.txt', 'certifications.txt', 'contact.txt', 'hd110067.txt', 'security.txt', 'pubkey.asc', 'session.log', 'projects/', 'writeups/'],
+        '~/projects': projects.map(p => p.file),
+        '~/writeups': writeups.map(w => w.file)
     };
 
-    const sections = { home: 'top', about: 'about', projects: 'projects', contact: 'contact', system: 'system' };
+    const sections = {
+        home: 'top', about: 'about', projects: 'projects', writeups: 'writeups',
+        certifications: 'certifications', lab: 'lab', system: 'lab', contact: 'contact'
+    };
 
     // Resolve a path relative to the current directory ("..", "~", trailing slashes)
     function resolve(arg = '') {
@@ -179,12 +229,12 @@
         cat: {
             desc: 'print a file',
             usage: '<file>',
-            run(args) {
+            async run(args) {
                 if (!args[0]) return line('usage: cat <file>', 'term-error');
                 const path = resolve(args[0]);
                 if (dirs[path]) return line(`cat: ${args[0]}: is a directory`, 'term-error');
                 if (!files[path]) return line(`cat: ${args[0]}: no such file`, 'term-error');
-                line(files[path](), 'term-file');
+                line(await files[path](), 'term-file');
             }
         },
         open: {
@@ -200,10 +250,10 @@
                     }, 350);
                     return;
                 }
-                if (target === 'github' || target === 'linkedin') {
-                    const href = socialHref(target === 'github' ? 'GitHub' : 'LinkedIn');
-                    if (href === '#') return line(`${target}: link not configured yet`, 'term-error');
-                    window.open(href, '_blank', 'noopener');
+                if (['github', 'pgp'].includes(target)) {
+                    const href = socialHref(target);
+                    if (!/^(https?:\/\/|[\w./-]+$)/i.test(href)) return line(`${target}: link not configured yet`, 'term-error');
+                    window.open(href, '_blank', 'noopener,noreferrer');
                     return line(`opened ${href}`, 'term-dim');
                 }
                 if (target === 'mail') {
@@ -211,7 +261,7 @@
                     return;
                 }
                 line('usage: open <target>', 'term-error');
-                line([...Object.keys(sections), 'github', 'linkedin', 'mail'].map(t => cmdLink(t, `open ${t}`)), 'term-list');
+                line([...Object.keys(sections).filter(k => k !== 'system'), 'github', 'pgp', 'mail'].map(t => cmdLink(t, `open ${t}`)), 'term-list');
             }
         },
         whoami: {
@@ -241,6 +291,16 @@
                 if (next !== 'dark' && next !== 'light') return line('usage: theme [dark|light]', 'term-error');
                 window.site.setTheme(next);
                 line(`theme set to ${next}`, 'term-dim');
+            }
+        },
+        lang: {
+            desc: 'switch english / français',
+            usage: '[en|fr]',
+            run(args) {
+                const next = args[0] || (window.i18n.lang === 'fr' ? 'en' : 'fr');
+                if (next !== 'en' && next !== 'fr') return line('usage: lang [en|fr]', 'term-error');
+                window.i18n.setLang(next);
+                line(`language set to ${next}`, 'term-dim');
             }
         },
         pwd: {
@@ -309,7 +369,9 @@
         if (tokens.length === 1) {
             candidates = Object.keys(commands).filter(c => !commands[c].hidden);
         } else if (cmd === 'open') {
-            candidates = [...Object.keys(sections), 'github', 'linkedin', 'mail'];
+            candidates = [...Object.keys(sections).filter(k => k !== 'system'), 'github', 'pgp', 'mail'];
+        } else if (cmd === 'lang') {
+            candidates = ['en', 'fr'];
         } else if (cmd === 'theme') {
             candidates = ['dark', 'light'];
         } else {
@@ -413,7 +475,7 @@
         const session = document.getElementById('session-id').textContent;
         const steps = [
             ['[ ok ] loading profile', 'term-dim'],
-            [`[ ok ] mounting ~/projects (${projects.length} entries)`, 'term-dim'],
+            [`[ ok ] mounting ~/projects (${projects.length}) and ~/writeups (${writeups.length})`, 'term-dim'],
             [`[ ok ] session ${session} established`, 'term-dim'],
             [''],
             ['scaringella.sh — interactive portfolio', ''],

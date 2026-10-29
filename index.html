@@ -4,23 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Matteo Scaringella — Cybersecurity student at Ynov. Ethical hacking, network security and security automation.">
+
+    <!-- Everything is served from this origin: no inline script, no third party.
+         (frame-ancestors / HSTS need HTTP headers, which GitHub Pages doesn't allow.) -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <title>Matteo Scaringella — Cybersecurity</title>
+    <meta name="description" content="Matteo Scaringella — cybersecurity student at Ynov. Penetration testing, ethical hacking, CTF writeups and infrastructure security.">
     <meta name="color-scheme" content="dark light">
-    <title>Matteo Scaringella</title>
+    <meta name="theme-color" content="#0a0c0f">
+    <link rel="canonical" href="https://ttksr.github.io/Portfolio/">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237fd1c1' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M12 2v20M4.93 4.93l14.14 14.14M2 12h20M19.07 4.93L4.93 19.07'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="assets/img/icon-180.png">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <!-- Link previews (Discord, Slack, Messenger, X…) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ttksr.github.io/Portfolio/">
+    <meta property="og:title" content="Matteo Scaringella — Cybersecurity">
+    <meta property="og:description" content="Cybersecurity student at Ynov · penetration testing, CTF writeups, infrastructure security.">
+    <meta property="og:image" content="https://ttksr.github.io/Portfolio/assets/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Matteo Scaringella — Cybersecurity student at Ynov">
+    <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Apply saved theme before first paint to avoid a flash -->
-    <script>
-        document.documentElement.classList.add('js');
-        try {
-            if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
-        } catch (e) { }
+    <!-- Structured data (not executed, so allowed by the CSP) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Matteo Scaringella",
+            "jobTitle": "Cybersecurity student",
+            "affiliation": { "@type": "EducationalOrganization", "name": "Ynov Campus" },
+            "url": "https://ttksr.github.io/Portfolio/",
+            "email": "mailto:mat.scaringella@gmail.com",
+            "sameAs": ["https://github.com/ttksr"]
+        }
     </script>
+
+    <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css">
+    </noscript>
+
+    <!-- Theme + language before first paint (external file: the CSP forbids inline scripts) -->
+    <script src="assets/js/boot.js"></script>
 </head>
 
 <body data-panel="top">
@@ -49,7 +84,7 @@
     </div>
 
     <header class="header">
-        <a href="#top" class="logo" data-panel-link aria-label="Home">
+        <a href="#top" class="logo" data-panel-link data-i18n-attr="aria-label:aria.home">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" aria-hidden="true">
                 <line x1="12" y1="2" x2="12" y2="22"></line>
@@ -61,23 +96,28 @@
 
         <nav class="nav" aria-label="Main">
             <ul class="nav-list" id="nav-list">
-                <li><a href="#about" class="nav-link" data-panel-link><span class="nav-index">01</span>About</a></li>
-                <li><a href="#projects" class="nav-link" data-panel-link><span class="nav-index">02</span>Projects</a></li>
-                <li><a href="#contact" class="nav-link" data-panel-link><span class="nav-index">03</span>Contact</a></li>
-                <li><a href="#system" class="nav-link" data-panel-link><span class="nav-index">04</span>System</a></li>
+                <li><a href="#about" class="nav-link" data-panel-link><span class="nav-index">01</span><span data-i18n="nav.about">About</span></a></li>
+                <li><a href="#projects" class="nav-link" data-panel-link><span class="nav-index">02</span><span data-i18n="nav.projects">Projects</span></a></li>
+                <li><a href="#writeups" class="nav-link" data-panel-link><span class="nav-index">03</span><span data-i18n="nav.writeups">Writeups</span></a></li>
+                <li><a href="#certifications" class="nav-link" data-panel-link><span class="nav-index">04</span><span data-i18n="nav.certs">Certifications</span></a></li>
+                <li><a href="#lab" class="nav-link" data-panel-link><span class="nav-index">05</span><span data-i18n="nav.lab">Lab</span></a></li>
+                <li><a href="#contact" class="nav-link" data-panel-link><span class="nav-index">06</span><span data-i18n="nav.contact">Contact</span></a></li>
             </ul>
-            <button class="term-open term-open--header" data-term-open aria-label="Open terminal (T)">
+            <button class="term-open term-open--header" data-term-open data-i18n-attr="aria-label:aria.terminal">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" aria-hidden="true">
                     <polyline points="4 17 10 11 4 5"></polyline>
                     <line x1="12" y1="19" x2="20" y2="19"></line>
                 </svg>
             </button>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark / light mode">
+            <button type="button" id="lang-toggle" class="lang-toggle" data-i18n-attr="aria-label:aria.lang">
+                <span data-lang="en">EN</span><span data-lang="fr">FR</span>
+            </button>
+            <button id="theme-toggle" class="theme-toggle" data-i18n-attr="aria-label:aria.theme">
                 <span class="theme-icon"></span>
             </button>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false"
-                aria-controls="nav-list">
+            <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-list"
+                data-i18n-attr="aria-label:aria.menu">
                 <span></span><span></span>
             </button>
         </nav>
@@ -86,176 +126,119 @@
     <main id="main" class="stage">
 
         <!-- HERO -->
-        <section class="panel panel--hero active" id="top" aria-label="Home">
+        <section class="panel panel--hero active" id="top" data-i18n-attr="aria-label:aria.home">
             <div class="panel-inner">
                 <p class="eyebrow reveal">
                     <span class="status-dot" aria-hidden="true"></span>
-                    Cybersecurity student · Ynov
+                    <span data-i18n="hero.eyebrow">Cybersecurity student · Ynov</span>
                 </p>
                 <h1 class="hero-name reveal">
-                    <span class="hero-hello">Hi, I'm</span>
-                    <span data-scramble>Matteo Scaringella</span>
+                    <span class="hero-hello" data-i18n="hero.hello">Hi, I’m</span>
+                    <span data-scramble>Matteo SCARINGELLA</span>
                 </h1>
-                <p class="hero-desc reveal">
-                    I secure digital infrastructures, explore ethical hacking and build resilient systems
-                    that hold up against modern threats.
-                </p>
+                <p class="hero-desc reveal" data-i18n="hero.desc">Penetration testing first: I look for the flaws in systems before attackers do — and help secure the infrastructures behind them.</p>
                 <div class="hero-actions reveal">
-                    <a href="#projects" class="btn btn-primary" data-panel-link>View projects</a>
-                    <a href="#contact" class="btn btn-ghost" data-panel-link>Get in touch</a>
+                    <a href="#projects" class="btn btn-primary" data-panel-link data-i18n="hero.projects">View projects</a>
+                    <a href="#contact" class="btn btn-ghost" data-panel-link data-i18n="hero.contact">Get in touch</a>
                 </div>
             </div>
         </section>
 
         <!-- ABOUT -->
-        <section class="panel" id="about" aria-label="About me">
+        <section class="panel" id="about" aria-labelledby="about-title">
             <div class="panel-inner">
                 <header class="section-head reveal">
                     <span class="section-index">01</span>
-                    <h2 class="section-title" data-scramble>About me</h2>
+                    <h2 class="section-title" id="about-title" data-scramble data-i18n="about.title">About me</h2>
                     <span class="section-rule"></span>
                 </header>
 
                 <div class="about-grid">
                     <div class="about-text reveal">
-                        <p>
-                            I'm a passionate cybersecurity student at Ynov, driven by curiosity about how systems
-                            work — and how to <mark class="redact">break them to make them better</mark>.
-                        </p>
-                        <p>
-                            My journey involves exploring <mark class="redact">ethical hacking</mark>, securing
-                            <mark class="redact">network infrastructures</mark> and developing tools to
-                            <mark class="redact">automate security tasks</mark>. I thrive on challenges and keep
-                            learning about the latest threats and defense mechanisms.
-                        </p>
+                        <p data-i18n-rich="about.p1">I’m a passionate cybersecurity student at Ynov, driven by curiosity about how systems work — and how to break them to make them better.</p>
+                        <p data-i18n-rich="about.p2">My journey involves exploring ethical hacking, securing network infrastructures and developing tools to automate security tasks. I thrive on challenges and keep learning about the latest threats and defense mechanisms.</p>
                     </div>
 
-                    <ul class="focus-list reveal" aria-label="Focus areas">
-                        <li class="focus-item">
-                            <span class="focus-key">offense</span>
-                            <span class="focus-value">Ethical hacking &amp; pentesting</span>
-                        </li>
-                        <li class="focus-item">
-                            <span class="focus-key">network</span>
-                            <span class="focus-value">Infrastructure hardening</span>
-                        </li>
-                        <li class="focus-item">
-                            <span class="focus-key">tooling</span>
-                            <span class="focus-value">Security automation</span>
-                        </li>
-                        <li class="focus-item">
-                            <span class="focus-key">crypto</span>
-                            <span class="focus-value">Encryption &amp; secure messaging</span>
-                        </li>
+                    <ul class="focus-list reveal" data-i18n-attr="aria-label:about.focus">
+                        <li class="focus-item"><span class="focus-key">offense</span><span class="focus-value" data-i18n="focus.offense">Ethical hacking &amp; pentesting</span></li>
+                        <li class="focus-item"><span class="focus-key">network</span><span class="focus-value" data-i18n="focus.network">Infrastructure hardening</span></li>
+                        <li class="focus-item"><span class="focus-key">tooling</span><span class="focus-value" data-i18n="focus.tooling">Security automation</span></li>
+                        <li class="focus-item"><span class="focus-key">crypto</span><span class="focus-value" data-i18n="focus.crypto">Encryption &amp; secure messaging</span></li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- PROJECTS -->
-        <section class="panel" id="projects" aria-label="Projects">
+        <!-- PROJECTS: list and detail swap in place -->
+        <section class="panel" id="projects" aria-labelledby="projects-title">
             <div class="panel-inner">
                 <header class="section-head reveal">
                     <span class="section-index">02</span>
-                    <h2 class="section-title" data-scramble>Projects</h2>
+                    <h2 class="section-title" id="projects-title" data-scramble data-i18n="projects.title">Projects</h2>
                     <span class="section-rule"></span>
                 </header>
 
-                <div class="project-grid">
-                    <article class="project-card reveal">
-                        <div class="card-top">
-                            <span class="card-id">0x01</span>
-                            <span class="card-hash" aria-hidden="true"></span>
-                        </div>
-                        <h3>Network Scanner</h3>
-                        <p>Python script for vulnerability scanning.</p>
-                        <ul class="tags"><li>python</li><li>recon</li></ul>
-                    </article>
-                    <article class="project-card reveal">
-                        <div class="card-top">
-                            <span class="card-id">0x02</span>
-                            <span class="card-hash" aria-hidden="true"></span>
-                        </div>
-                        <h3>Secure Chat</h3>
-                        <p>End-to-end encrypted messaging app.</p>
-                        <ul class="tags"><li>e2ee</li><li>crypto</li></ul>
-                    </article>
-                    <article class="project-card reveal">
-                        <div class="card-top">
-                            <span class="card-id">0x03</span>
-                            <span class="card-hash" aria-hidden="true"></span>
-                        </div>
-                        <h3>Firewall Rules</h3>
-                        <p>Automated iptables configuration tool.</p>
-                        <ul class="tags"><li>iptables</li><li>automation</li></ul>
-                    </article>
-                    <article class="project-card reveal">
-                        <div class="card-top">
-                            <span class="card-id">0x04</span>
-                            <span class="card-hash" aria-hidden="true"></span>
-                        </div>
-                        <h3>Packet Analyzer</h3>
-                        <p>Traffic analysis using Wireshark libraries.</p>
-                        <ul class="tags"><li>pcap</li><li>network</li></ul>
-                    </article>
-                    <article class="project-card reveal">
-                        <div class="card-top">
-                            <span class="card-id">0x05</span>
-                            <span class="card-hash" aria-hidden="true"></span>
-                        </div>
-                        <h3>PenTest Report</h3>
-                        <p>Automated reporting for penetration tests.</p>
-                        <ul class="tags"><li>pentest</li><li>reporting</li></ul>
-                    </article>
-                    <article class="project-card reveal">
-                        <div class="card-top">
-                            <span class="card-id">0x06</span>
-                            <span class="card-hash" aria-hidden="true"></span>
-                        </div>
-                        <h3>Crypto Tool</h3>
-                        <p>Encryption / decryption utility suite.</p>
-                        <ul class="tags"><li>crypto</li><li>cli</li></ul>
-                    </article>
+                <noscript><p class="noscript-note">This section is built with JavaScript. Its content is also readable in <a href="assets/data/content.js">assets/data/content.js</a>.</p></noscript>
+                <div class="swap" id="projects-swap">
+                    <div class="swap-list">
+                        <div class="project-grid" id="project-grid"></div>
+                    </div>
+                    <article class="swap-detail detail" id="project-detail" aria-live="polite"></article>
                 </div>
             </div>
         </section>
 
-        <!-- CONTACT -->
-        <section class="panel" id="contact" aria-label="Contact">
+        <!-- WRITEUPS -->
+        <section class="panel" id="writeups" aria-labelledby="writeups-title">
             <div class="panel-inner">
                 <header class="section-head reveal">
                     <span class="section-index">03</span>
-                    <h2 class="section-title" data-scramble>Contact</h2>
+                    <h2 class="section-title" id="writeups-title" data-scramble data-i18n="writeups.title">Writeups</h2>
                     <span class="section-rule"></span>
                 </header>
 
-                <div class="contact-body">
-                    <p class="contact-lead reveal">
-                        Open to internships, CTF teams and security conversations.
-                        My inbox is always open.
-                    </p>
-                    <button class="email-copy reveal" id="email-copy" data-email="mat.scaringella@gmail.com">
-                        <span class="email-copy-text">mat.scaringella@gmail.com</span>
-                        <span class="email-copy-hint" aria-live="polite">copy</span>
-                    </button>
-                    <div class="contact-actions reveal">
-                        <a href="mailto:mat.scaringella@gmail.com" class="btn btn-primary">Send an email</a>
-                        <a href="#" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
-                        <a href="#" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
+                <noscript><p class="noscript-note">This section is built with JavaScript. Its content is also readable in <a href="assets/data/content.js">assets/data/content.js</a>.</p></noscript>
+                <div class="swap" id="writeups-swap">
+                    <div class="swap-list">
+                        <p class="section-lead reveal" data-i18n="writeups.lead">CTF and lab writeups: how a target fell, and what a defender should fix.</p>
+                        <div class="filters reveal" id="writeup-filters" role="group"></div>
+                        <ol class="writeup-list reveal" id="writeup-list"></ol>
                     </div>
-                    <p class="contact-meta reveal">
-                        Designed &amp; built by Matteo Scaringella · session <span id="session-id">--------</span>
-                    </p>
+                    <article class="swap-detail detail" id="writeup-detail" aria-live="polite"></article>
                 </div>
             </div>
         </section>
 
-        <!-- SYSTEM: HD 110067, live -->
-        <section class="panel" id="system" aria-label="HD 110067">
+        <!-- CERTIFICATIONS -->
+        <section class="panel" id="certifications" aria-labelledby="certs-title">
             <div class="panel-inner">
                 <header class="section-head reveal">
                     <span class="section-index">04</span>
-                    <h2 class="section-title" data-scramble>HD 110067</h2>
+                    <h2 class="section-title" id="certs-title" data-scramble data-i18n="certs.title">Certifications</h2>
+                    <span class="section-rule"></span>
+                </header>
+
+                <noscript><p class="noscript-note">This section is built with JavaScript. Its content is also readable in <a href="assets/data/content.js">assets/data/content.js</a>.</p></noscript>
+                <p class="section-lead reveal" data-i18n="certs.lead">What’s obtained, what’s in progress, and what’s next.</p>
+                <div class="certs-grid">
+                    <div class="reveal">
+                        <h3 class="col-title" data-i18n="certs.certs">Certifications</h3>
+                        <ol class="timeline" id="cert-list"></ol>
+                    </div>
+                    <div class="reveal">
+                        <h3 class="col-title" data-i18n="certs.education">Education</h3>
+                        <ol class="timeline" id="edu-list"></ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LAB: HD 110067, live -->
+        <section class="panel" id="lab" aria-labelledby="lab-title">
+            <div class="panel-inner">
+                <header class="section-head reveal">
+                    <span class="section-index">05</span>
+                    <h2 class="section-title" id="lab-title" data-scramble data-i18n="lab.title">HD 110067</h2>
                     <span class="section-rule"></span>
                 </header>
 
@@ -270,11 +253,8 @@
                         <!-- Overview (list) and detail card share the same spot and swap -->
                         <div class="system-swap reveal" id="system-swap">
                             <div class="system-overview">
-                                <p class="system-lead">
-                                    A K0 V star 32.2 pc away, orbited by six sub-Neptunes. Positions are live, from
-                                    the published transit ephemerides. Click a body, or drag around the system to
-                                    turn time.
-                                </p>
+                                <p class="lab-eyebrow" data-i18n="lab.eyebrow">Lab · side project</p>
+                                <p class="system-lead" data-i18n="lab.lead">A rendering engine written from scratch (no library) that computes the published ephemerides of six real exoplanets, live. Click a body, or drag around the system to turn time.</p>
 
                                 <table class="planet-table">
                                     <thead>
@@ -336,6 +316,36 @@
                 </div>
             </div>
         </section>
+
+        <!-- CONTACT -->
+        <section class="panel contact" id="contact" aria-labelledby="contact-title">
+            <div class="panel-inner">
+                <header class="section-head reveal">
+                    <span class="section-index">06</span>
+                    <h2 class="section-title" id="contact-title" data-scramble data-i18n="contact.title">Contact</h2>
+                    <span class="section-rule"></span>
+                </header>
+
+                <div class="contact-body">
+                    <p class="contact-seeking reveal" id="contact-seeking" hidden></p>
+                    <p class="contact-lead reveal" data-i18n="contact.lead">Also up for joining a CTF team or simply talking security. Write to me — encrypted with my PGP key if you like.</p>
+                    <button class="email-copy reveal" id="email-copy" data-email="mat.scaringella@gmail.com">
+                        <span class="email-copy-text">mat.scaringella@gmail.com</span>
+                        <span class="email-copy-hint" aria-live="polite" data-i18n="contact.copy">copy</span>
+                    </button>
+                    <div class="contact-actions reveal">
+                        <a href="mailto:mat.scaringella@gmail.com" class="btn btn-primary" data-i18n="contact.send">Send an email</a>
+                        <a href="#" class="btn btn-ghost" id="contact-github" target="_blank" rel="noopener noreferrer" hidden>GitHub</a>
+                        <a href="#" class="btn btn-ghost" id="contact-pgp" hidden download="matteo-scaringella-pubkey.asc" data-i18n="contact.pgp">PGP key</a>
+                    </div>
+                    <div class="contact-meta reveal">
+                        <p><span data-i18n="contact.built">Designed &amp; built by Matteo Scaringella</span> · session <span id="session-id">--------</span></p>
+                        <p id="contact-fingerprint" hidden>PGP <span class="fingerprint"></span></p>
+                        <p><span data-i18n="contact.privacy">no cookies · no trackers · strict CSP</span> · <a href=".well-known/security.txt">security.txt</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Session log (wide screens): what the visitor does, as access logs -->
@@ -347,7 +357,7 @@
     <!-- Bottom bar: tools under the side column, pager under the content, email on the right -->
     <footer class="footbar">
         <div class="footbar-tools">
-            <button class="term-open term-open--bar" data-term-open aria-label="Open terminal (T)">
+            <button class="term-open term-open--bar" data-term-open data-i18n-attr="aria-label:aria.terminal">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" aria-hidden="true">
                     <polyline points="4 17 10 11 4 5"></polyline>
@@ -355,30 +365,25 @@
                 </svg>
                 <span class="term-open-label">terminal <kbd>t</kbd></span>
             </button>
-            <a href="#" aria-label="GitHub" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"
+            <a href="#" id="footbar-github" aria-label="GitHub" target="_blank" rel="noopener noreferrer" hidden><svg viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     aria-hidden="true">
                     <path
                         d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
                     </path>
                 </svg></a>
-            <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                    <rect x="2" y="9" width="4" height="12"></rect>
-                    <circle cx="4" cy="4" r="2"></circle>
-                </svg></a>
         </div>
 
-        <nav class="pager" aria-label="Sections">
-            <span class="pager-count"><span id="pager-current">00</span> / 04</span>
+        <nav class="pager" data-i18n-attr="aria-label:aria.sections">
+            <span class="pager-count"><span id="pager-current">00</span> / 06</span>
             <div class="pager-ticks">
-                <a href="#top" class="pager-tick" data-panel-link aria-label="Home"></a>
-                <a href="#about" class="pager-tick" data-panel-link aria-label="About"></a>
-                <a href="#projects" class="pager-tick" data-panel-link aria-label="Projects"></a>
-                <a href="#contact" class="pager-tick" data-panel-link aria-label="Contact"></a>
-                <a href="#system" class="pager-tick" data-panel-link aria-label="HD 110067"></a>
+                <a href="#top" class="pager-tick" data-panel-link data-i18n-attr="aria-label:aria.home"></a>
+                <a href="#about" class="pager-tick" data-panel-link data-i18n-attr="aria-label:nav.about"></a>
+                <a href="#projects" class="pager-tick" data-panel-link data-i18n-attr="aria-label:nav.projects"></a>
+                <a href="#writeups" class="pager-tick" data-panel-link data-i18n-attr="aria-label:nav.writeups"></a>
+                <a href="#certifications" class="pager-tick" data-panel-link data-i18n-attr="aria-label:nav.certs"></a>
+                <a href="#lab" class="pager-tick" data-panel-link data-i18n-attr="aria-label:nav.lab"></a>
+                <a href="#contact" class="pager-tick" data-panel-link data-i18n-attr="aria-label:nav.contact"></a>
             </div>
             <span class="pager-keys" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd></span>
         </nav>
@@ -404,9 +409,12 @@
 
     <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"></span></div>
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/system.js"></script>
-    <script src="assets/js/terminal.js"></script>
+    <script src="assets/data/content.js" defer></script>
+    <script src="assets/js/i18n.js" defer></script>
+    <script src="assets/js/sections.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/system.js" defer></script>
+    <script src="assets/js/terminal.js" defer></script>
 </body>
 
 </html>

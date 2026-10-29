@@ -1,0 +1,193 @@
+/* 404 page — same tokens and type as the site, nothing else loaded */
+
+html,
+body {
+    height: 100%;
+}
+
+.nf {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 100%;
+    padding: 80px clamp(16px, 8vw, 180px);
+    font-family: var(--font-family-base);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    background-image: radial-gradient(rgba(var(--grid-dot), 0.09) 1px, transparent 1.2px);
+    background-size: 28px 28px;
+    background-position: 14px 14px;
+}
+
+:focus-visible {
+    outline: 1px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.nf-logo {
+    position: absolute;
+    top: 26px;
+    left: var(--frame);
+    color: var(--color-text);
+}
+
+.nf-logo svg {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.6s var(--ease-out), color 0.3s ease;
+}
+
+.nf-logo:hover svg {
+    transform: rotate(90deg);
+    color: var(--color-accent);
+}
+
+.nf-main {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    animation: nfIn 0.9s var(--ease-out) both;
+}
+
+.nf-log {
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+    overflow-wrap: anywhere;
+}
+
+.nf-method {
+    color: var(--color-text);
+}
+
+.nf-status {
+    color: #e48f8f;
+}
+
+:root[data-theme="light"] .nf-status {
+    color: #a83232;
+}
+
+.nf-code {
+    font-family: var(--font-family-mono);
+    font-size: clamp(88px, 16vw, 168px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-accent);
+    margin-bottom: 18px;
+}
+
+.nf-title {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+}
+
+.nf-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin-bottom: 32px;
+}
+
+.nf-btn {
+    display: inline-flex;
+    padding: 13px 22px;
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--color-background);
+    background: var(--color-text);
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s var(--ease-out);
+}
+
+.nf-btn:hover {
+    background: var(--color-accent);
+}
+
+.nf-btn:active {
+    transform: scale(0.98);
+}
+
+/* Dial: same drawing as the home page, slowly turning, never opening */
+.nf-dial {
+    position: absolute;
+    right: -10vw;
+    top: 50%;
+    width: min(70vw, 760px);
+    aspect-ratio: 1;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.nf-dial svg {
+    width: 100%;
+    height: 100%;
+    animation: nfTurn 120s linear infinite;
+}
+
+.nf-stroke {
+    fill: none;
+    stroke: var(--color-line-strong);
+    stroke-width: 0.6;
+}
+
+.nf-dashed {
+    stroke-dasharray: 2 6;
+}
+
+.nf-arc {
+    stroke: #e48f8f;
+    stroke-opacity: 0.45;
+    stroke-dasharray: 120 571;
+    stroke-linecap: round;
+}
+
+.nf-ticks line {
+    stroke: var(--color-text-faint);
+    stroke-width: 0.6;
+}
+
+.nf-ticks line.major {
+    stroke: var(--color-text-muted);
+    stroke-width: 0.9;
+}
+
+.nf-core {
+    fill: var(--color-text-faint);
+}
+
+.nf-index {
+    stroke: var(--color-accent);
+    stroke-width: 1.2;
+}
+
+@keyframes nfIn {
+    from { opacity: 0; transform: translateY(16px); }
+}
+
+@keyframes nfTurn {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .nf-dial {
+        width: 130vw;
+        right: -70vw;
+        opacity: 0.35;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nf-main,
+    .nf-dial svg {
+        animation: none;
+    }
+}
