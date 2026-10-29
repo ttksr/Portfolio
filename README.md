@@ -31,7 +31,7 @@ The site is small, but treated like production:
 - **No third party.** Fonts are self-hosted (SIL OFL licences in `assets/fonts/`); no CDN, no analytics,
   no cookies, no tracker. The browser never talks to another domain.
 - **Strict Content-Security-Policy** (meta tag):
-  `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types 'none'; upgrade-insecure-requests`.
+  `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types 'none'; upgrade-insecure-requests`.
   No inline script — even the pre-paint theme script lives in its own file (`boot.js`).
 - **No markup injection, enforced by the browser.** The CSP requires **Trusted Types** with no policy
   allowed (`require-trusted-types-for 'script'; trusted-types 'none'`): `innerHTML` and the other DOM
