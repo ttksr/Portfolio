@@ -39,6 +39,8 @@ The site is small, but treated like production:
   file are restricted to `http(s)`, `mailto` and relative paths.
 - **[`/.well-known/security.txt`](.well-known/security.txt)** (RFC 9116) with a contact and an encryption key,
   **signed with the PGP key** below (`gpg --verify security.txt`).
+- **[Security policy](SECURITY.md)**: how to report a vulnerability (privately, PGP welcome), scope,
+  safe harbor, and acknowledgments — referenced by `security.txt` (`Policy:`, `Acknowledgments:`).
 - **PGP key** published in [`assets/pgp/pubkey.asc`](assets/pgp/pubkey.asc) —
   fingerprint `61BF A2DD D908 3789 7E6B  8B1A FD46 6D32 77FE 602F`.
 - `rel="noopener noreferrer"` on external links, strict referrer policy.
@@ -73,6 +75,7 @@ blocked twice:
 
 [CodeQL](.github/workflows/codeql.yml) analyses the JavaScript (`security-extended` queries) and the
 GitHub Actions workflows on every push and every Monday. Results are in the repository's Security tab.
+[Dependabot](.github/dependabot.yml) keeps the actions used by the workflows up to date.
 
 ## Accessibility & performance
 

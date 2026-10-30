@@ -8,11 +8,13 @@ Contact: mailto:mat.scaringella@gmail.com
 Expires: 2027-10-29T00:00:00.000Z
 Encryption: https://matteoscaringella.dev/assets/pgp/pubkey.asc
 Preferred-Languages: fr, en
+Policy: https://github.com/ttksr/Portfolio/security/policy
+Acknowledgments: https://github.com/ttksr/Portfolio/blob/main/SECURITY.md#acknowledgments
 Canonical: https://matteoscaringella.dev/.well-known/security.txt
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQRhv6Ld2Qg3iX5rixr9Rm0yd/5gLwUCauOhZQAKCRD9Rm0yd/5g
-L0NiAPwMU1C/G2nidR6squpjVVpim5fpQNsN/BBh0GvXtKlTywEAiYkm8VSCvEDT
-dr+GmbcoLKY7cSuEry3b7eEk1SbOHw8=
-=7Ydd
+iHUEARYKAB0WIQRhv6Ld2Qg3iX5rixr9Rm0yd/5gLwUCauPv+gAKCRD9Rm0yd/5g
+LwQZAP9EK5nO6KsD4W2kCnHGvKIFJBem/ye2SgZPiwbWp/n2jQD/U2za9jay2d7W
+MonZ2WfopyIUcV5eEjiXmXlYbQ+1xgQ=
+=fdiv
 -----END PGP SIGNATURE-----
