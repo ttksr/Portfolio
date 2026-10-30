@@ -2189,15 +2189,18 @@ kbd {
     color: var(--color-accent);
 }
 
-.term-open--bar {
+/* Footbar tools: their name rises above the icon on hover (the terminal also shows its key) */
+.term-open--bar,
+.footbar-tools a {
     position: relative;
 }
 
-.term-open-label {
+.term-open-label,
+.tool-label {
     position: absolute;
     left: 0;
     bottom: 100%;
-    padding-left: 9px;
+    padding-left: var(--tool-pad, 9px);
     font-family: var(--font-family-mono);
     font-size: 11px;
     white-space: nowrap;
@@ -2209,7 +2212,9 @@ kbd {
 }
 
 .term-open--bar:hover .term-open-label,
-.term-open--bar:focus-visible .term-open-label {
+.term-open--bar:focus-visible .term-open-label,
+.footbar-tools a:hover .tool-label,
+.footbar-tools a:focus-visible .tool-label {
     opacity: 1;
     transform: none;
 }
