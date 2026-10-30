@@ -825,6 +825,23 @@
             out.scale(z, z);
             out.translate(-focus.x * dpr, -focus.y * dpr);
             out.drawImage(sysLayer, 0, 0);
+
+            // The enlarged system runs past the square canvas: fade it into a disc so the orbits
+            // dissolve instead of being cut by straight edges. No effect at rest (t = 0).
+            const k = Math.min(1, t * 4);
+            if (k > 0) {
+                const w = canvas.width;
+                const h = canvas.height;
+                const r = Math.min(w, h) / 2;
+                const mask = out.createRadialGradient(w / 2, h / 2, r * 0.55, w / 2, h / 2, r);
+                mask.addColorStop(0, 'rgba(0, 0, 0, 1)');
+                mask.addColorStop(1, `rgba(0, 0, 0, ${1 - k})`);
+                out.setTransform(1, 0, 0, 1, 0, 0);
+                out.globalAlpha = 1;
+                out.globalCompositeOperation = 'destination-in';
+                out.fillStyle = mask;
+                out.fillRect(0, 0, w, h);
+            }
             out.restore();
         }
 

@@ -1952,13 +1952,6 @@ body[data-panel="lab"] .dial.ready {
     transform: translateY(-2px);
 }
 
-/* htb / thm: text links, no third-party logos */
-.footbar-tools .footbar-text {
-    font-family: var(--font-family-mono);
-    font-size: 11px;
-    padding: 9px 4px;
-}
-
 .footbar-tools svg {
     width: 18px;
     height: 18px;
