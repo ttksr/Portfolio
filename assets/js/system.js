@@ -1048,6 +1048,14 @@
     // --- Shared with the terminal ---
 
     window.site.system = {
+        // The soonest upcoming transit, live
+        nextTransit() {
+            const tjd = toTjd(Date.now());
+            return PLANETS
+                .map(p => ({ id: p.id, ...phaseInfo(p, tjd) }))
+                .map(x => ({ id: x.id, transiting: x.transiting, days: x.next - tjd }))
+                .sort((a, b) => (b.transiting - a.transiting) || (a.days - b.days))[0];
+        },
         describe() {
             const tjd = toTjd(Date.now());
             return [

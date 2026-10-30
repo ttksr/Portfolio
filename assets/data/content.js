@@ -32,6 +32,22 @@ window.CONTENT = {
         updated: '2026-10'
     },
 
+    // Scrolling band under the header. Real facts only. Each item is a label and a text
+    // ({ en, fr } or a plain string), or a live value: 'now', 'utc', 'transit', 'session'.
+    ticker: [
+        { live: 'now' },
+        { live: 'utc' },
+        { live: 'transit' },
+        { label: 'seeking', text: { en: 'internship from may 2027', fr: 'stage dès mai 2027' } },
+        { label: 'tls', text: '1.3 · hsts 2y' },
+        { label: 'csp', text: "default-src 'none' · trusted types" },
+        { label: 'dns', text: 'dnssec · spf -all · dmarc reject' },
+        { label: 'scores', text: 'observatory A+ · securityheaders A+ · internet.nl mail 100%' },
+        { label: 'pgp', text: '61BF A2DD … 77FE 602F' },
+        { label: 'vault', text: { en: '4 locks · press t, type ctf', fr: '4 verrous · touche t, puis ctf' } },
+        { live: 'session' }
+    ],
+
     // Toolbox, shown in "About" and by `cat toolbox.txt` in the terminal.
     // Only list tools you have really used and could talk about in an interview.
     toolbox: [

@@ -269,6 +269,102 @@ body {
 .menu-open .menu-toggle span:nth-child(1) { top: 17px; transform: rotate(45deg); }
 .menu-open .menu-toggle span:nth-child(2) { top: 17px; transform: rotate(-45deg); }
 
+/* ---------- Ticker: scrolling band of live facts ---------- */
+
+.ticker {
+    --ticker-h: 36px;
+    position: fixed;
+    /* Just above the section titles and the session log (both sit on --anchor), never under the header */
+    top: max(86px, calc(var(--anchor) - 18px - var(--ticker-h)));
+    left: var(--frame);
+    /* Stops where the home page's dial begins: the dial is min(62vw, 720px) wide, pushed 6vw off-screen */
+    right: calc(min(62vw, 720px) - 6vw);
+    z-index: 90;
+    height: var(--ticker-h);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-background) 80%, transparent);
+    font-family: var(--font-family-mono);
+    font-size: 12px;
+    white-space: nowrap;
+    /* short fade on the left, a long one on the right: the text dissolves as it reaches the dial */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 72%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 4%, #000 72%, transparent);
+    opacity: 0;
+    animation: fadeIn 1s ease 1.6s forwards;
+    transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+.ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tickerScroll var(--ticker-duration, 60s) linear infinite;
+}
+
+.ticker:hover .ticker-track {
+    animation-play-state: paused;
+}
+
+.ticker-run {
+    display: flex;
+}
+
+.ticker-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    padding-left: 18px;
+}
+
+.ticker-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+}
+
+.ticker-text {
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.ticker-sep {
+    color: var(--color-text-faint);
+    padding-left: 6px;
+}
+
+.term-active .ticker {
+    opacity: 0 !important;
+    filter: blur(8px);
+}
+
+@keyframes tickerScroll {
+    to { transform: translateX(-50%); }
+}
+
+/* Shorter screens (laptops): a slimmer band, so it never touches the titles */
+@media (max-height: 820px) {
+    .ticker {
+        --ticker-h: 30px;
+        font-size: 11px;
+    }
+}
+
+/* No room for it on phones and short screens */
+@media (max-width: 768px), (max-height: 700px) {
+    .ticker {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation: none;
+    }
+}
+
 /* ---------- Stage & panels ---------- */
 
 .stage {
