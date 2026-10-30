@@ -43,9 +43,22 @@
     // --- Progress, kept in the browser only ---
 
     const KEY = 'vault';
-    let state = { solved: [false, false, false, false], hints: [0, 0, 0, 0] };
+    // "started": the player typed `ctf` at least once (the dial only shows its lock marks from then on)
+    let state = { solved: [false, false, false, false], hints: [0, 0, 0, 0], started: false };
     try { state = { ...state, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch (e) { }
+    if (state.solved.includes(true)) state.started = true;
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { } };
+
+    // The vault dial (main.js) mirrors the progress; "fresh" marks a lock opened just now
+    const emit = (fresh) => document.dispatchEvent(new CustomEvent('vaultprogress', {
+        detail: { solved: state.solved.slice(), started: !!state.started, fresh }
+    }));
+    emit(false);
+    window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        try { state = { ...state, ...JSON.parse(e.newValue || '{}') }; } catch (err) { }
+        emit(false);
+    });
 
     async function sha256(text) {
         const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -111,7 +124,7 @@
 
     // --- Terminal integration ---
 
-    function install({ commands, files, dirs, line, span, cmdLink, resolve }) {
+    function install({ commands, files, dirs, line, span, cmdLink, resolve, close }) {
         const log = msg => window.site?.log?.(msg);
 
         // A hidden directory: only `ls -a` shows it
@@ -145,9 +158,15 @@
             desc: 'the vault — a small CTF',
             async run(args) {
                 if (args[0] === 'reset') {
-                    state = { solved: [false, false, false, false], hints: [0, 0, 0, 0] };
+                    state = { solved: [false, false, false, false], hints: [0, 0, 0, 0], started: true };
                     save();
+                    emit(false);
                     return line('progress reset.', 'term-dim');
+                }
+                if (!state.started) {
+                    state.started = true;
+                    save();
+                    emit(false);
                 }
                 status();
             }
@@ -165,6 +184,7 @@
                 if (state.solved[i]) return line(`lock ${i + 1} is already open.`, 'term-dim');
                 state.solved[i] = true;
                 save();
+                emit(true);
                 log(`ctf: lock ${i + 1} opened`);
                 line(`lock ${i + 1}/4 · ${LOCKS[i].name} — opened (${LOCKS[i].level}).`, 'term-ok');
                 if (state.solved.every(Boolean)) {
@@ -177,6 +197,15 @@
                     const next = state.solved.indexOf(false);
                     line(`next: lock ${next + 1} · ${LOCKS[next].name} (${LOCKS[next].level}).`, 'term-dim');
                 }
+                // Step out of the terminal so the dial can show the lock opening (this output stays here)
+                const last = state.solved.every(Boolean);
+                line(last ? 'closing the terminal… watch the dial. (press t to come back to this message)'
+                    : 'closing the terminal… watch the dial.', 'term-dim');
+                setTimeout(() => {
+                    if (!document.body.classList.contains('term-active')) return;
+                    if (document.body.dataset.panel !== 'top') window.site?.goTo?.(0);
+                    close?.();
+                }, last ? 4000 : 2000);
             }
         };
 

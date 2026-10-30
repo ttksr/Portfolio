@@ -338,7 +338,7 @@
     };
 
     // The vault (assets/js/ctf.js): hidden files and its own commands
-    window.CTF?.install({ commands, files, dirs, line, span, cmdLink, resolve });
+    window.CTF?.install({ commands, files, dirs, line, span, cmdLink, resolve, close });
 
     const aliases = { quit: 'exit', q: 'exit', dir: 'ls', ll: 'ls', cls: 'clear', goto: 'open' };
 
@@ -351,7 +351,8 @@
     }
 
     async function run(raw, { record = true } = {}) {
-        if (raw.trim()) window.site.log(`$ ${raw.trim()}`);
+        // Flags are masked in the on-screen log: a screenshot or a shared screen must not spoil the vault
+        if (raw.trim()) window.site.log(`$ ${raw.trim().replace(/SCA\{[^}]*\}?/g, 'SCA{…}')}`);
         echo(raw);
         if (record && raw.trim()) {
             history.push(raw.trim());

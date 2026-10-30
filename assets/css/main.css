@@ -593,6 +593,67 @@ body:not([data-panel="top"]) .dial.ready {
     stroke-width: 1.2;
 }
 
+/* CTF progress: one mark per lock, lit once opened; all four open the vault.
+   The marks only appear once the player has typed `ctf` in the terminal. */
+.dial-locks {
+    opacity: 0;
+    transition: opacity 1.4s ease;
+}
+
+.dial.vault-started .dial-locks {
+    opacity: 1;
+}
+
+.dial-lock {
+    fill: transparent;
+    stroke: var(--color-text-faint);
+    stroke-width: 0.8;
+    transition: fill 0.8s ease, stroke 0.8s ease;
+}
+
+.dial-locks .open .dial-lock {
+    fill: var(--color-accent);
+    stroke: var(--color-accent);
+}
+
+.dial-lock-halo {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 0.8;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.dial-locks .pulse .dial-lock-halo {
+    animation: lockHalo 1.6s var(--ease-out);
+}
+
+@keyframes lockHalo {
+    from { opacity: 0.9; transform: scale(1); }
+    to { opacity: 0; transform: scale(6); }
+}
+
+.dial-arc,
+.dial-dashed,
+.dial-core {
+    transition: stroke-dasharray 2s var(--ease-out), stroke-opacity 2s ease, stroke 2s ease, opacity 2s ease;
+}
+
+.dial.unlocked .dial-arc {
+    stroke-dasharray: 691 0;
+    stroke-opacity: 0.8;
+}
+
+.dial.unlocked .dial-dashed {
+    stroke: var(--color-accent);
+    stroke-opacity: 0.5;
+}
+
+.dial.unlocked .dial-core {
+    opacity: 1;
+}
+
 /* ---------- Section heads ---------- */
 
 .section-head {

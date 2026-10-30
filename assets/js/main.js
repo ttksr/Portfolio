@@ -437,6 +437,28 @@ const dial = (() => {
         ticks.appendChild(line);
     }
 
+    // Four lock marks, fixed on the diagonals, between the inner and middle rings
+    const locks = [45, 135, 225, 315].map(deg => {
+        const mark = document.createElementNS(NS, 'g');
+        mark.setAttribute('transform', `rotate(${deg} 200 200)`);
+        // Diamonds, so they never read like the round marker of the inner ring
+        const halo = document.createElementNS(NS, 'circle');
+        halo.setAttribute('cx', 200);
+        halo.setAttribute('cy', 70);
+        halo.setAttribute('r', 3.2);
+        const dot = document.createElementNS(NS, 'rect');
+        dot.setAttribute('x', 196.5);
+        dot.setAttribute('y', 66.5);
+        dot.setAttribute('width', 7);
+        dot.setAttribute('height', 7); // the diagonal rotation of the group turns it into a diamond
+        halo.classList.add('dial-lock-halo');
+        dot.classList.add('dial-lock');
+        mark.append(halo, dot);
+        el.querySelector('.dial-locks').appendChild(mark);
+        return mark;
+    });
+    let unlocked = false;
+
     // Each ring eases toward a target; the inner one "enters a combination" every few seconds
     const rings = {
         outer: { el: el.querySelector('.dial-ring--outer'), angle: 0, target: 0, drift: 0.03 },
@@ -455,11 +477,11 @@ const dial = (() => {
         turn(dir) {
             rings.outer.target += dir * 72;
             rings.mid.target -= dir * 108;
-            rings.inner.target += dir * 144;
+            if (!unlocked) rings.inner.target += dir * 144;
             lastStep = performance.now();
         },
         update(now) {
-            if (now - lastStep > STEP) {
+            if (!unlocked && now - lastStep > STEP) {
                 lastStep = now;
                 const dir = Math.random() > 0.5 ? 1 : -1;
                 rings.inner.target += dir * (36 + Math.round(Math.random() * 10) * 12);
@@ -469,8 +491,64 @@ const dial = (() => {
                 ring.angle += (ring.target - ring.angle) * 0.05;
                 rotate(ring);
             });
+        },
+        // Mirror the CTF: lit marks for open locks; all four open the vault. "fresh" locks pulse.
+        progress(solved, fresh, started) {
+            el.classList.toggle('vault-started', started);
+            locks.forEach((mark, i) => {
+                mark.classList.toggle('open', solved[i]);
+                if (fresh.includes(i)) {
+                    mark.classList.remove('pulse');
+                    void mark.getBoundingClientRect();
+                    mark.classList.add('pulse');
+                }
+            });
+            const all = solved.every(Boolean);
+            if (all && !unlocked) {
+                // The inner ring brings its marker back under the index, one extra turn if it's live
+                const inner = rings.inner;
+                inner.target = Math.ceil(inner.angle / 360) * 360 + (fresh.length ? 360 : 0);
+                if (!fresh.length || reducedMotion) {
+                    inner.angle = inner.target;
+                    rotate(inner);
+                }
+            }
+            unlocked = all;
+            el.classList.toggle('unlocked', all);
         }
     };
+})();
+
+// The CTF reports its progress; a lock opened in the terminal is shown once the terminal is closed
+(() => {
+    let pending = [];
+    let waiting = null;
+    let last = [false, false, false, false];
+    let started = false;
+    let shown = false;
+    const flush = () => {
+        if (waiting) waiting.disconnect();
+        waiting = null;
+        dial.progress(last, pending, started);
+        shown = started;
+        pending = [];
+    };
+    document.addEventListener('vaultprogress', (e) => {
+        const s = e.detail && e.detail.solved;
+        last = [0, 1, 2, 3].map(i => Array.isArray(s) && s[i] === true);
+        started = e.detail.started === true || last.includes(true);
+        if (e.detail.fresh) last.forEach((open, i) => { if (open && !pending.includes(i)) pending.push(i); });
+        pending = pending.filter(i => last[i]);
+        // Nothing to animate (or nobody to hide it from): apply now. Otherwise wait for the terminal to close.
+        if ((!pending.length && (shown || !started)) || !terminalOpen()) return flush();
+        if (waiting) return;
+        waiting = new MutationObserver(() => {
+            if (terminalOpen()) return;
+            waiting.disconnect();
+            setTimeout(flush, 700);
+        });
+        waiting.observe(body, { attributes: true, attributeFilter: ['class'] });
+    });
 })();
 
 // --- Background dot grid ---
