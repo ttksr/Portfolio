@@ -48,7 +48,7 @@
             "affiliation": { "@type": "EducationalOrganization", "name": "Ynov Campus" },
             "url": "https://matteoscaringella.dev/",
             "email": "mailto:mat.scaringella@gmail.com",
-            "sameAs": ["https://github.com/ttksr"]
+            "sameAs": ["https://github.com/ttksr", "https://profile.hackthebox.com/profile/01a07c39-6392-71bc-b62f-658469dcac5b", "https://tryhackme.com/p/ttksr"]
         }
     </script>
 
@@ -146,6 +146,10 @@
                     <span data-scramble>Matteo SCARINGELLA</span>
                 </h1>
                 <p class="hero-desc reveal" data-i18n="hero.desc">Penetration testing first: I look for the flaws in systems before attackers do — and help secure the infrastructures behind them.</p>
+                <p class="hero-now reveal" id="hero-now" hidden>
+                    <span class="hero-now-label" data-i18n="hero.now">now</span>
+                    <span id="hero-now-text"></span>
+                </p>
                 <div class="hero-actions reveal">
                     <a href="#projects" class="btn btn-primary" data-panel-link data-i18n="hero.projects">View projects</a>
                     <a href="#contact" class="btn btn-ghost" data-panel-link data-i18n="hero.contact">Get in touch</a>
@@ -168,12 +172,7 @@
                         <p data-i18n-rich="about.p2">My journey involves exploring ethical hacking, securing network infrastructures and developing tools to automate security tasks. I thrive on challenges and keep learning about the latest threats and defense mechanisms.</p>
                     </div>
 
-                    <ul class="focus-list reveal" data-i18n-attr="aria-label:about.focus">
-                        <li class="focus-item"><span class="focus-key">offense</span><span class="focus-value" data-i18n="focus.offense">Ethical hacking &amp; pentesting</span></li>
-                        <li class="focus-item"><span class="focus-key">network</span><span class="focus-value" data-i18n="focus.network">Infrastructure hardening</span></li>
-                        <li class="focus-item"><span class="focus-key">tooling</span><span class="focus-value" data-i18n="focus.tooling">Security automation</span></li>
-                        <li class="focus-item"><span class="focus-key">crypto</span><span class="focus-value" data-i18n="focus.crypto">Encryption &amp; secure messaging</span></li>
-                    </ul>
+                    <ul class="focus-list toolbox reveal" id="toolbox" data-i18n-attr="aria-label:about.focus"></ul>
                 </div>
             </div>
         </section>
@@ -345,6 +344,8 @@
                     <div class="contact-actions reveal">
                         <a href="mailto:mat.scaringella@gmail.com" class="btn btn-primary" data-i18n="contact.send">Send an email</a>
                         <a href="#" class="btn btn-ghost" id="contact-github" target="_blank" rel="noopener noreferrer" hidden>GitHub</a>
+                        <a href="#" class="btn btn-ghost" id="contact-htb" target="_blank" rel="noopener noreferrer" hidden>Hack The Box</a>
+                        <a href="#" class="btn btn-ghost" id="contact-thm" target="_blank" rel="noopener noreferrer" hidden>TryHackMe</a>
                         <a href="#" class="btn btn-ghost" id="contact-pgp" hidden download="matteo-scaringella-pubkey.asc" data-i18n="contact.pgp">PGP key</a>
                     </div>
                     <div class="contact-meta reveal">
@@ -381,6 +382,8 @@
                         d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
                     </path>
                 </svg></a>
+            <a href="#" id="footbar-htb" class="footbar-text" aria-label="Hack The Box" target="_blank" rel="noopener noreferrer" hidden>htb</a>
+            <a href="#" id="footbar-thm" class="footbar-text" aria-label="TryHackMe" target="_blank" rel="noopener noreferrer" hidden>thm</a>
         </div>
 
         <nav class="pager" data-i18n-attr="aria-label:aria.sections">

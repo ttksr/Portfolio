@@ -41,8 +41,11 @@
 
     const files = {
         '~/about.txt': () => [...document.querySelectorAll('.about-text p')].map(clean).join('\n\n'),
-        '~/skills.txt': () => [...document.querySelectorAll('.focus-item')]
-            .map(item => clean(item.querySelector('.focus-key')).padEnd(10) + clean(item.querySelector('.focus-value')))
+        '~/now.txt': () => (C.now && pick(C.now)
+            ? `${pick(C.now)}\n\n(updated ${C.now.updated || '?'})`
+            : 'nothing announced right now.'),
+        '~/toolbox.txt': () => (C.toolbox || [])
+            .map(g => g.category.padEnd(11) + g.tools.join(', '))
             .join('\n'),
         '~/certifications.txt': () => [
             ...C.certifications.map(c =>
@@ -76,6 +79,8 @@
         '~/contact.txt': () => [
             'email     ' + email,
             'github    ' + (socialHref('github') || '(not linked yet)'),
+            'htb       ' + (socialHref('htb') || '(not linked yet)'),
+            'thm       ' + (socialHref('thm') || '(not linked yet)'),
             pick(C.profile.seeking) ? '\n' + pick(C.profile.seeking) : null,
             '',
             "tip: run 'email' to copy the address"
@@ -114,7 +119,7 @@
     });
 
     const dirs = {
-        '~': ['about.txt', 'skills.txt', 'certifications.txt', 'contact.txt', 'hd110067.txt', 'security.txt', 'pubkey.asc', 'session.log', 'projects/', 'writeups/'],
+        '~': ['about.txt', 'now.txt', 'toolbox.txt', 'certifications.txt', 'contact.txt', 'hd110067.txt', 'security.txt', 'pubkey.asc', 'session.log', 'projects/', 'writeups/'],
         '~/projects': projects.map(p => p.file),
         '~/writeups': writeups.map(w => w.file)
     };
@@ -256,7 +261,7 @@
                     }, 350);
                     return;
                 }
-                if (['github', 'pgp'].includes(target)) {
+                if (['github', 'htb', 'thm', 'pgp'].includes(target)) {
                     const href = socialHref(target);
                     if (!/^(https?:\/\/|[\w./-]+$)/i.test(href)) return line(`${target}: link not configured yet`, 'term-error');
                     window.open(href, '_blank', 'noopener,noreferrer');
@@ -267,7 +272,7 @@
                     return;
                 }
                 line('usage: open <target>', 'term-error');
-                line([...Object.keys(sections).filter(k => k !== 'system'), 'github', 'pgp', 'mail'].map(t => cmdLink(t, `open ${t}`)), 'term-list');
+                line([...Object.keys(sections).filter(k => k !== 'system'), 'github', 'htb', 'thm', 'pgp', 'mail'].map(t => cmdLink(t, `open ${t}`)), 'term-list');
             }
         },
         whoami: {
@@ -378,7 +383,7 @@
         if (tokens.length === 1) {
             candidates = Object.keys(commands).filter(c => !commands[c].hidden);
         } else if (cmd === 'open') {
-            candidates = [...Object.keys(sections).filter(k => k !== 'system'), 'github', 'pgp', 'mail'];
+            candidates = [...Object.keys(sections).filter(k => k !== 'system'), 'github', 'htb', 'thm', 'pgp', 'mail'];
         } else if (cmd === 'lang') {
             candidates = ['en', 'fr'];
         } else if (cmd === 'theme') {

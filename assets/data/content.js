@@ -12,6 +12,8 @@ window.CONTENT = {
     profile: {
         email: 'mat.scaringella@gmail.com',
         github: 'https://github.com/ttksr',
+        htb: 'https://profile.hackthebox.com/profile/01a07c39-6392-71bc-b62f-658469dcac5b',
+        thm: 'https://tryhackme.com/p/ttksr',
         pgp: 'assets/pgp/pubkey.asc',
         // Shown next to the key so people can check they got the right one (gpg --fingerprint)
         pgpFingerprint: '61BF A2DD D908 3789 7E6B  8B1A FD46 6D32 77FE 602F',
@@ -21,6 +23,25 @@ window.CONTENT = {
             fr: 'Recherche un stage de 1 à 2 mois à partir de mai 2027 en cybersécurité, réseaux, administration système, SOC ou support.'
         }
     },
+
+    // What you're working on right now, shown on the home page and by `cat now.txt`.
+    // Keep it short and keep it fresh: update `updated` each time you change it.
+    now: {
+        en: 'Preparing the HTB CJCA certification',
+        fr: 'Préparation de la certification HTB CJCA',
+        updated: '2026-10'
+    },
+
+    // Toolbox, shown in "About" and by `cat toolbox.txt` in the terminal.
+    // Only list tools you have really used and could talk about in an interview.
+    toolbox: [
+        { category: 'offensive', tools: ['nmap', 'Burp Suite', 'Metasploit', 'ffuf', 'gobuster', 'sqlmap', 'Hydra', 'John', 'Hashcat', 'Impacket', 'BloodHound'] },
+        { category: 'network', tools: ['Wireshark', 'tcpdump', 'Cisco Packet Tracer', 'VLAN / routing', 'pfSense', 'OPNsense'] },
+        { category: 'systems', tools: ['Linux / bash', 'Windows Server', 'Active Directory', 'PowerShell', 'Docker', 'VirtualBox', 'VMware', 'Proxmox'] },
+        { category: 'defense', tools: ['Wazuh', 'Splunk', 'ELK', 'Sysmon', 'Suricata', 'Snort', 'MITRE ATT&CK'] },
+        { category: 'scripting', tools: ['Python', 'Bash', 'Git'] },
+        { category: 'platforms', tools: ['Kali Linux', 'Parrot OS'] }
+    ],
 
     projects: [
         {

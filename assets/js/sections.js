@@ -302,11 +302,18 @@
     function renderProfile() {
         const p = C.profile;
         setLink('contact-github', p.github, { keepEmpty: true });
+        setLink('contact-htb', p.htb, { keepEmpty: true });
+        setLink('contact-thm', p.thm, { keepEmpty: true });
         setLink('contact-pgp', p.pgp);
         setLink('footbar-github', p.github, { keepEmpty: true });
+        setLink('footbar-htb', p.htb, { keepEmpty: true });
+        setLink('footbar-thm', p.thm, { keepEmpty: true });
         const fingerprint = document.getElementById('contact-fingerprint');
         fingerprint.querySelector('.fingerprint').textContent = p.pgpFingerprint || '';
         fingerprint.hidden = !(p.pgp && p.pgpFingerprint);
+        const now = document.getElementById('hero-now');
+        document.getElementById('hero-now-text').textContent = pick(C.now);
+        now.hidden = !pick(C.now);
         const seeking = document.getElementById('contact-seeking');
         seeking.textContent = pick(p.seeking);
         seeking.hidden = !seeking.textContent;
@@ -319,6 +326,15 @@
             container.querySelectorAll('.reveal').forEach(r => r.classList.add('in'));
         }
     }
+
+    // --- Toolbox (About) ---
+
+    const toolbox = document.getElementById('toolbox');
+    (C.toolbox || []).forEach(group => {
+        toolbox.appendChild(el('li', { class: 'focus-item' },
+            el('span', { class: 'focus-key', text: group.category }),
+            el('ul', { class: 'tags toolbox-tools' }, group.tools.map(t => el('li', { text: t })))));
+    });
 
     renderWriteups();
     renderCerts();
