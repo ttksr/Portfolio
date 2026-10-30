@@ -81,6 +81,7 @@
             'github    ' + (socialHref('github') || '(not linked yet)'),
             'htb       ' + (socialHref('htb') || '(not linked yet)'),
             'thm       ' + (socialHref('thm') || '(not linked yet)'),
+            'rootme    ' + (socialHref('rootme') || '(not linked yet)'),
             pick(C.profile.seeking) ? '\n' + pick(C.profile.seeking) : null,
             '',
             "tip: run 'email' to copy the address"
@@ -261,7 +262,7 @@
                     }, 350);
                     return;
                 }
-                if (['github', 'htb', 'thm', 'pgp'].includes(target)) {
+                if (['github', 'htb', 'thm', 'rootme', 'pgp'].includes(target)) {
                     const href = socialHref(target);
                     if (!/^(https?:\/\/|[\w./-]+$)/i.test(href)) return line(`${target}: link not configured yet`, 'term-error');
                     window.open(href, '_blank', 'noopener,noreferrer');
@@ -272,7 +273,7 @@
                     return;
                 }
                 line('usage: open <target>', 'term-error');
-                line([...Object.keys(sections).filter(k => k !== 'system'), 'github', 'htb', 'thm', 'pgp', 'mail'].map(t => cmdLink(t, `open ${t}`)), 'term-list');
+                line([...Object.keys(sections).filter(k => k !== 'system'), 'github', 'htb', 'thm', 'rootme', 'pgp', 'mail'].map(t => cmdLink(t, `open ${t}`)), 'term-list');
             }
         },
         whoami: {
@@ -384,7 +385,7 @@
         if (tokens.length === 1) {
             candidates = Object.keys(commands).filter(c => !commands[c].hidden);
         } else if (cmd === 'open') {
-            candidates = [...Object.keys(sections).filter(k => k !== 'system'), 'github', 'htb', 'thm', 'pgp', 'mail'];
+            candidates = [...Object.keys(sections).filter(k => k !== 'system'), 'github', 'htb', 'thm', 'rootme', 'pgp', 'mail'];
         } else if (cmd === 'lang') {
             candidates = ['en', 'fr'];
         } else if (cmd === 'theme') {

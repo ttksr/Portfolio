@@ -14,6 +14,7 @@ window.CONTENT = {
         github: 'https://github.com/ttksr',
         htb: 'https://profile.hackthebox.com/profile/01a07c39-6392-71bc-b62f-658469dcac5b',
         thm: 'https://tryhackme.com/p/ttksr',
+        rootme: 'https://www.root-me.org/ttksr',
         pgp: 'assets/pgp/pubkey.asc',
         // Shown next to the key so people can check they got the right one (gpg --fingerprint)
         pgpFingerprint: '61BF A2DD D908 3789 7E6B  8B1A FD46 6D32 77FE 602F',

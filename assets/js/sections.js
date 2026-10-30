@@ -304,10 +304,12 @@
         setLink('contact-github', p.github, { keepEmpty: true });
         setLink('contact-htb', p.htb, { keepEmpty: true });
         setLink('contact-thm', p.thm, { keepEmpty: true });
+        setLink('contact-rootme', p.rootme, { keepEmpty: true });
         setLink('contact-pgp', p.pgp);
         setLink('footbar-github', p.github, { keepEmpty: true });
         setLink('footbar-htb', p.htb, { keepEmpty: true });
         setLink('footbar-thm', p.thm, { keepEmpty: true });
+        setLink('footbar-rootme', p.rootme, { keepEmpty: true });
         const fingerprint = document.getElementById('contact-fingerprint');
         fingerprint.querySelector('.fingerprint').textContent = p.pgpFingerprint || '';
         fingerprint.hidden = !(p.pgp && p.pgpFingerprint);

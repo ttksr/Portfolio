@@ -1931,17 +1931,21 @@ body[data-panel="lab"] .dial.ready {
 }
 
 .footbar-tools {
+    /* 3 px of padding lets the five icons fit the 140 px column (24 px targets, the WCAG minimum);
+       9 px once the column is 240 px wide */
+    --tool-pad: 3px;
     display: flex;
     align-items: center;
     gap: 2px;
     /* pull the icons' padding back so the glyphs sit on the frame line, under the logo */
-    margin-left: -9px;
+    margin-left: calc(-1 * var(--tool-pad));
 }
 
 .footbar-tools a,
 .term-open--bar {
     display: flex;
-    padding: 9px;
+    flex-shrink: 0;
+    padding: var(--tool-pad);
     color: var(--color-text-muted);
     transition: color 0.2s ease, transform 0.3s var(--ease-out);
 }
@@ -2582,6 +2586,10 @@ kbd {
 @media (min-width: 1380px) and (min-height: 640px) {
     :root {
         --side: 240px;
+    }
+
+    .footbar-tools {
+        --tool-pad: 9px;
     }
 }
 
