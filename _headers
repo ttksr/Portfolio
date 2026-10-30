@@ -20,6 +20,10 @@
 /assets/pgp/pubkey.asc
   Content-Type: application/pgp-keys
 
+# Styles, scripts and content keep their names from one version to the next: "no-cache" makes the
+# browser check with the server (a tiny 304 when nothing changed) instead of reusing a stale copy
+# for hours after a deploy. Fonts and images keep the default caching.
+#
 # Cross-Origin-Resource-Policy, path by path: everything stays same-origin, except the
 # link-preview image and the touch icon, which other sites are meant to display.
 # (Set per path rather than overridden: Pages joins or drops duplicated headers.)
@@ -37,12 +41,15 @@
 
 /assets/css/*
   Cross-Origin-Resource-Policy: same-origin
+  Cache-Control: no-cache
 
 /assets/js/*
   Cross-Origin-Resource-Policy: same-origin
+  Cache-Control: no-cache
 
 /assets/data/*
   Cross-Origin-Resource-Policy: same-origin
+  Cache-Control: no-cache
 
 /assets/fonts/*
   Cross-Origin-Resource-Policy: same-origin

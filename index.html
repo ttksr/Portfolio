@@ -344,12 +344,16 @@
                 <div class="contact-body">
                     <p class="contact-seeking reveal" id="contact-seeking" hidden></p>
                     <p class="contact-lead reveal" data-i18n="contact.lead">Also up for joining a CTF team or simply talking security. Write to me — encrypted with my PGP key if you like.</p>
+                    <!-- The markers around the address keep Cloudflare's email obfuscation away from it: its
+                         decoder script is blocked by Trusted Types, so the address would stay hidden -->
+
+                    <!--email_off-->
                     <button class="email-copy reveal" id="email-copy" data-email="mat.scaringella@gmail.com">
                         <span class="email-copy-text">mat.scaringella@gmail.com</span>
                         <span class="email-copy-hint" aria-live="polite" data-i18n="contact.copy">copy</span>
                     </button>
                     <div class="contact-actions reveal">
-                        <a href="mailto:mat.scaringella@gmail.com" class="btn btn-primary" data-i18n="contact.send">Send an email</a>
+                        <a href="mailto:mat.scaringella@gmail.com" class="btn btn-primary" data-i18n="contact.send">Send an email</a><!--/email_off-->
                         <a href="#" class="btn btn-ghost" id="contact-github" target="_blank" rel="noopener noreferrer" hidden>GitHub</a>
                         <a href="#" class="btn btn-ghost" id="contact-htb" target="_blank" rel="noopener noreferrer" hidden>Hack The Box</a>
                         <a href="#" class="btn btn-ghost" id="contact-thm" target="_blank" rel="noopener noreferrer" hidden>TryHackMe</a>
@@ -429,7 +433,7 @@
 
         <div class="footbar-end">
             <span class="footbar-updated" id="footbar-updated" hidden></span>
-            <a href="mailto:mat.scaringella@gmail.com" class="footbar-email">mat.scaringella@gmail.com</a>
+            <!--email_off--><a href="mailto:mat.scaringella@gmail.com" class="footbar-email">mat.scaringella@gmail.com</a><!--/email_off-->
         </div>
     </footer>
 
