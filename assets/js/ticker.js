@@ -66,19 +66,23 @@
     }
 
     // Snap the band onto the background dot grid (main.js: rows every 28 px, the first at 14 px)
-    // so that a row of dots runs exactly through its middle, moving up rather than down.
+    // so that a row of dots runs exactly through its middle: the row just above its CSS position,
+    // kept between the header and the section titles (which start at the panels' top padding).
+    // If no row fits, the band keeps its CSS position.
     const GRID = 28;
     const FIRST_ROW = GRID / 2;
-    const HEADER_BOTTOM = 80;
+    const HEADER_BOTTOM = 82;
+    const TITLE_GAP = 8;
 
     function align() {
         ticker.style.top = '';
         const r = ticker.getBoundingClientRect();
         if (!r.height) return;
-        const row = FIRST_ROW + GRID * Math.floor((r.top + r.height / 2 - FIRST_ROW) / GRID);
-        let top = row - r.height / 2;
-        if (top < HEADER_BOTTOM + 2) top += GRID;
-        ticker.style.top = `${top}px`;
+        const titles = parseFloat(getComputedStyle(document.querySelector('.panel:not(.panel--hero)')).paddingTop);
+        const half = r.height / 2;
+        let row = FIRST_ROW + GRID * Math.floor((r.top + half - FIRST_ROW) / GRID);
+        if (row - half < HEADER_BOTTOM) row += GRID;
+        if (row - half >= HEADER_BOTTOM && row + half <= titles - TITLE_GAP) ticker.style.top = `${row - half}px`;
     }
 
     // Constant speed whatever the content length: ~40 px per second

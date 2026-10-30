@@ -314,6 +314,15 @@
         const now = document.getElementById('hero-now');
         document.getElementById('hero-now-text').textContent = pick(C.now);
         now.hidden = !pick(C.now);
+        // "updated oct 2026", from the date of the "now" line: it moves each time that line is refreshed
+        const updated = document.getElementById('footbar-updated');
+        const [year, month] = String(C.now?.updated || '').split('-').map(Number);
+        updated.hidden = !(year && month);
+        if (!updated.hidden) {
+            const date = new Date(Date.UTC(year, month - 1, 1)).toLocaleDateString(window.i18n.lang,
+                { month: 'short', year: 'numeric', timeZone: 'UTC' });
+            updated.textContent = `${window.i18n.t('foot.updated')} ${date}`;
+        }
         const seeking = document.getElementById('contact-seeking');
         seeking.textContent = pick(p.seeking);
         seeking.hidden = !seeking.textContent;

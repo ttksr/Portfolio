@@ -295,7 +295,12 @@ body {
     mask-image: linear-gradient(to right, transparent, #000 4%, #000 72%, transparent);
     opacity: 0;
     animation: fadeIn 1s ease 1.6s forwards;
-    transition: opacity 0.5s ease, filter 0.5s ease;
+    transition: opacity 0.5s ease, filter 0.5s ease, right 0.8s var(--ease-out);
+}
+
+/* On the Lab, the orbit view starts further left than the dial: the band stops before it */
+body[data-panel="lab"] .ticker {
+    right: calc(var(--frame) + var(--orbit) + 24px);
 }
 
 .ticker-track {
@@ -353,7 +358,8 @@ body {
 }
 
 /* No room for it on phones and short screens */
-@media (max-width: 768px), (max-height: 700px) {
+/* Below ~740px of height the band would sit on the section titles: it's a bonus, it goes */
+@media (max-width: 768px), (max-height: 740px) {
     .ticker {
         display: none;
     }
@@ -973,8 +979,9 @@ body[data-panel="lab"] .dial.ready {
     opacity: 0;
 }
 
-/* The orbits take the space the dial uses on the hero: right side, full height between the bars */
-.system-grid {
+/* The orbits take the space the dial uses on the hero: right side, full height between the bars.
+   Defined on :root so the ticker can stop where the orbit view begins. */
+:root {
     --orbit: min(calc(100svh - 80px - var(--bar-h) - 16px), calc(100vw - var(--content-x) - var(--frame) - 500px));
 }
 
@@ -1965,8 +1972,24 @@ body[data-panel="lab"] .dial.ready {
     gap: 18px;
 }
 
-.footbar-email {
+.footbar-end {
     grid-column: 3;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.footbar-updated {
+    color: var(--color-text-faint);
+    letter-spacing: 0.05em;
+}
+
+.footbar-updated::after {
+    content: '·';
+    margin-left: 14px;
+}
+
+.footbar-email {
     letter-spacing: 0.05em;
     color: inherit;
     text-decoration: none;
@@ -2602,6 +2625,103 @@ kbd {
     }
 }
 
+/* Laptop windows (1440×900 or 1536×864 screens, minus the browser bars). The top margin shrinks
+   smoothly down to the ≤780 value, and Contact and Lab, the tallest panels, get a tighter rhythm
+   so they end above the bottom bar. */
+@media (max-height: 860px) {
+    :root {
+        --anchor: clamp(96px, 16vh, 136px);
+    }
+
+    .contact-seeking {
+        margin-bottom: 16px;
+    }
+
+    .contact-lead {
+        font-size: 22px;
+        line-height: 1.45;
+        margin-bottom: 22px;
+    }
+
+    .email-copy {
+        margin-bottom: 20px;
+    }
+
+    .contact-actions {
+        margin-bottom: 24px;
+    }
+
+    .system-lead {
+        line-height: 1.55;
+        margin-bottom: 12px;
+    }
+
+    .planet-table td {
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    .system-chain {
+        margin-bottom: 10px;
+    }
+
+    .system-controls {
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+}
+
+/* Laptop screens once the browser bars are taken (1366×768 → ~657px of page) */
+@media (max-height: 740px) {
+    .section-head {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-height: 680px) {
+    .about-text p {
+        font-size: 15px;
+        line-height: 1.65;
+    }
+
+    .toolbox .focus-item {
+        padding: 7px 0;
+    }
+
+    .toolbox-tools {
+        gap: 4px;
+    }
+
+    .contact-lead {
+        font-size: 19px;
+        margin-bottom: 16px;
+    }
+
+    .email-copy {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 16px;
+    }
+
+    .contact-actions {
+        margin-bottom: 18px;
+    }
+
+    .system-lead {
+        font-size: 13px;
+    }
+
+    .planet-table td {
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    /* The resonance chain is also in the detail cards: it makes room here */
+    .system-chain {
+        display: none;
+    }
+}
+
 @media (max-width: 1024px) {
     :root {
         --frame: var(--gutter);
@@ -2795,7 +2915,7 @@ kbd {
     }
 
     .pager-keys,
-    .footbar-email {
+    .footbar-end {
         display: none;
     }
 
