@@ -3074,9 +3074,38 @@ kbd {
         white-space: normal;
     }
 
-    /* Projects become a horizontal swipeable strip */
+    /* Panels scroll on phones: their end must clear the pager (and its fade) with room to spare,
+       so the reader sees the page is over before a swipe moves on */
+    .panel {
+        padding-bottom: calc(var(--bar-h) + 48px);
+        /* Not stretched to the panel's height: the inner block must grow with its content, or the
+           content overflows it and lands on the padding meant to keep it clear of the pager */
+        align-items: flex-start;
+    }
+
+    /* Panels scroll on phones: the header gets a backdrop so the content never shows through it.
+       On a pseudo-element, not the header itself: a backdrop-filter there would trap the full-screen
+       menu (position: fixed) inside the header's box. */
+    .header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: color-mix(in srgb, var(--color-background) 88%, transparent);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--color-line);
+        transition: opacity 0.35s ease;
+    }
+
+    .menu-open .header::before {
+        opacity: 0;
+    }
+
+    /* Projects become a horizontal swipeable strip, two cards high */
     .project-grid {
         grid-template-columns: none;
+        grid-template-rows: repeat(2, auto);
         grid-auto-flow: column;
         grid-auto-columns: 78%;
         overflow-x: auto;
@@ -3093,11 +3122,15 @@ kbd {
 
     .project-card {
         scroll-snap-align: start;
-        min-height: 230px;
+        padding: 18px;
     }
 
     .card-top {
-        margin-bottom: 32px;
+        margin-bottom: 14px;
+    }
+
+    .project-card p {
+        margin-bottom: 14px;
     }
 
     .contact-actions {
