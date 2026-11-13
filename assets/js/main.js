@@ -230,8 +230,14 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Touch: swipe between panels. Horizontal swipes always work (the projects strip and the orbit
-// view keep theirs); vertical ones only once the panel can't scroll further in that direction.
+// view keep theirs); vertical ones only once the panel can't scroll further in that direction,
+// AND has rested there: a flick whose momentum carries the panel to its end must leave the reader
+// time to see that end, instead of the next swipe jumping straight to the next panel.
+const EDGE_REST = 600;
 let touchStart = null;
+let lastPanelScroll = 0;
+
+panels.forEach(p => p.addEventListener('scroll', () => { lastPanelScroll = performance.now(); }, { passive: true }));
 
 document.addEventListener('touchstart', (e) => {
     if (body.classList.contains('menu-open') || terminalOpen()) return;
@@ -242,19 +248,20 @@ document.addEventListener('touchstart', (e) => {
         horizontalOk: !e.target.closest('.project-grid, .orbit-view, .filters'),
         verticalOk: !e.target.closest('.orbit-view'),
         atTop: panel.scrollTop <= 0,
-        atBottom: panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1
+        atBottom: panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1,
+        rested: performance.now() - lastPanelScroll > EDGE_REST
     };
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
     if (!touchStart) return;
-    const { x, y, horizontalOk, verticalOk, atTop, atBottom } = touchStart;
+    const { x, y, horizontalOk, verticalOk, atTop, atBottom, rested } = touchStart;
     const dx = e.changedTouches[0].clientX - x;
     const dy = e.changedTouches[0].clientY - y;
     touchStart = null;
     if (horizontalOk && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
         goTo(current + (dx < 0 ? 1 : -1));
-    } else if (verticalOk && Math.abs(dy) > 80 && Math.abs(dy) > Math.abs(dx) * 1.5) {
+    } else if (verticalOk && rested && Math.abs(dy) > 80 && Math.abs(dy) > Math.abs(dx) * 1.5) {
         if (dy < 0 && atBottom) goTo(current + 1);
         if (dy > 0 && atTop) goTo(current - 1);
     }
