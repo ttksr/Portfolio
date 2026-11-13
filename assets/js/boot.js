@@ -9,5 +9,10 @@
         const saved = localStorage.getItem('lang');
         const lang = saved || ((navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en');
         root.lang = lang;
+        // Loading screen: first page of the visit only, never for people who asked for less motion
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('loaded')) {
+            sessionStorage.setItem('loaded', '1');
+            root.classList.add('loading');
+        }
     } catch (e) { }
 })();

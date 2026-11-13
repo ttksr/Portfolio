@@ -696,19 +696,52 @@ const startIndex = Math.max(0, ids.indexOf(location.hash.slice(1)));
 panels.forEach((p, i) => p.classList.toggle('active', i === startIndex));
 current = startIndex;
 updateIndicators(startIndex);
-if (startIndex === 0) {
-    // The hero's entrance already runs in CSS (see heroIn): hand over once it has finished
-    setTimeout(() => {
-        panels[0].querySelectorAll('.reveal').forEach(el => {
-            el.style.transitionDelay = '0s';
-            el.classList.add('in');
-            setTimeout(() => { el.style.transitionDelay = ''; }, 50);
-        });
-        panels[0].querySelectorAll('[data-scramble]').forEach(scramble);
-    }, 1200);
-    panels[0].querySelectorAll('[data-scramble]').forEach(el => setTimeout(() => scramble(el), 250));
+
+function enter() {
+    if (startIndex === 0) {
+        // The hero's entrance already runs in CSS (see heroIn): hand over once it has finished
+        setTimeout(() => {
+            panels[0].querySelectorAll('.reveal').forEach(el => {
+                el.style.transitionDelay = '0s';
+                el.classList.add('in');
+                setTimeout(() => { el.style.transitionDelay = ''; }, 50);
+            });
+            panels[0].querySelectorAll('[data-scramble]').forEach(scramble);
+        }, 1200);
+        panels[0].querySelectorAll('[data-scramble]').forEach(el => setTimeout(() => scramble(el), 250));
+    } else {
+        requestAnimationFrame(() => revealPanel(panels[startIndex]));
+    }
+}
+
+// --- Loading screen (boot.js adds .loading on the first page of a visit) ---
+// It stays up for its whole sequence (CSS, ~1.7 s) and until the page has loaded (at most 3.5 s),
+// then the doors open on the panel, whose entrance starts as they part.
+
+const loader = document.querySelector('.loader');
+if (root.classList.contains('loading') && loader) {
+    const MIN = 1700;
+    const MAX = 3500;
+    const loaded = new Promise(resolve => {
+        if (document.readyState === 'complete') resolve();
+        else window.addEventListener('load', resolve, { once: true });
+    });
+    const wait = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, ms - performance.now())));
+    Promise.race([Promise.all([loaded, wait(MIN)]), wait(MAX)]).then(() => {
+        root.classList.add('loader-open');
+        setTimeout(() => {
+            root.classList.remove('loading');
+            enter();
+        }, 250);
+        setTimeout(() => {
+            loader.remove();
+            root.classList.remove('loader-open');
+        }, 1200);
+    });
 } else {
-    requestAnimationFrame(() => revealPanel(panels[startIndex]));
+    loader?.remove();
+    root.classList.remove('loading');
+    enter();
 }
 sessionLog.log(`GET ${pathOf(startIndex)}`, 'nav');
 

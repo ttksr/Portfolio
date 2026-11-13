@@ -67,6 +67,33 @@
 </head>
 
 <body data-panel="top">
+    <!-- Loading screen: once per visit (boot.js decides, main.js lifts it; CSS hides it on its own
+         after a few seconds if a script ever fails). Decorative: the page underneath stays readable. -->
+    <div class="loader" aria-hidden="true">
+        <div class="loader-door loader-door--top"></div>
+        <div class="loader-door loader-door--bottom"></div>
+        <div class="loader-core">
+            <svg class="loader-dial" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="56" class="loader-ring loader-ring--outer" />
+                <circle cx="60" cy="60" r="44" class="loader-ring loader-ring--mid" />
+                <circle cx="60" cy="60" r="32" class="loader-ring loader-ring--arc" />
+                <rect x="57" y="11" width="6" height="6" class="loader-lock" transform="rotate(45 60 60) rotate(45 60 14)" />
+                <rect x="57" y="11" width="6" height="6" class="loader-lock" transform="rotate(135 60 60) rotate(45 60 14)" />
+                <rect x="57" y="11" width="6" height="6" class="loader-lock" transform="rotate(225 60 60) rotate(45 60 14)" />
+                <rect x="57" y="11" width="6" height="6" class="loader-lock" transform="rotate(315 60 60) rotate(45 60 14)" />
+                <circle cx="60" cy="60" r="2.5" class="loader-pin" />
+            </svg>
+            <p class="loader-name">MATTEO SCARINGELLA</p>
+            <div class="loader-bar"><span></span></div>
+            <p class="loader-status">
+                <span class="loader-step"><span data-lang="en">handshake</span><span data-lang="fr">poignée de main</span></span>
+                <span class="loader-step"><span data-lang="en">decrypting vault</span><span data-lang="fr">déchiffrement du coffre</span></span>
+                <span class="loader-step"><span data-lang="en">verifying signature</span><span data-lang="fr">vérification de la signature</span></span>
+                <span class="loader-step loader-step--ok"><span data-lang="en">access granted</span><span data-lang="fr">accès autorisé</span></span>
+            </p>
+        </div>
+    </div>
+
     <!-- ops: remember to pull the vault entry out of robots.txt before launch -->
     <!-- Background layers -->
     <canvas class="bg-grid" aria-hidden="true"></canvas>
